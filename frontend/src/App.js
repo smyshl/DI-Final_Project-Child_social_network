@@ -9,7 +9,7 @@ function App() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const send = () => {
    if(name){
-    fetch(`/api/${name}`)
+    fetch(`${BASE_URL}/api/${name}`)
       .then((res) => {
         console.log("res", res);
         return res.json();
