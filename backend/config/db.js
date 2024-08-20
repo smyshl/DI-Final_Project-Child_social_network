@@ -13,7 +13,10 @@ module.exports = {
             port: PGPORT,
             user: PGUSER,
             database: PGDATABASE,
-            password: PGPASSWORD
+            password: PGPASSWORD,
+            ssl: {
+                require: true,
+              },
         }
     })
 };
