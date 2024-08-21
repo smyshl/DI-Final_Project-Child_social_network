@@ -1,4 +1,9 @@
 import {useState, useEffect} from "react";
+import { Routes, Route } from "react-router-dom";
+
+import LoginRegister from "./components/LoginRegister.jsx";
+import HomePage from "./components/HomePage.jsx";
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -26,20 +31,13 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>{!data ? "write your name..." : data}</p>
-        <input onChange={(e)=>setName(e.target.value)}/>
-        <button onClick={()=>send()}>Send</button>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<LoginRegister action={'Register'} />} />
+          <Route path="/login" element={<LoginRegister action={'Login'}/>} />   
+
+        </Routes>
+
       </header>
     </div>
   );
