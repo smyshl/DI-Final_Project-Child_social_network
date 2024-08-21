@@ -3,9 +3,11 @@ import { Routes, Route } from "react-router-dom";
 
 import LoginRegister from "./components/LoginRegister.jsx";
 import HomePage from "./components/HomePage.jsx";
+import AddFiles from "./components/AddFiles.jsx";
 
 import logo from './logo.svg';
 import './App.css';
+
 
 function App() {
 
@@ -39,6 +41,7 @@ function App() {
         </Routes>
 
       </header>
+      <AddFiles />
     </div>
   );
 }
