@@ -7,7 +7,7 @@ async function createUser({ password, email }) {
 
     try {
         const hashPassword = await bcrypt.hash(password + '', 10);
-        const [ user ] = await trx('users').insert({ email, password: hashPassword}, ['id', 'email']);
+        const [ user ] = await trx('users').insert({ email, password: hashPassword}, ['id', 'email', 'role']);
 
         await trx.commit();
         return user;

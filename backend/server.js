@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bucket = require('./config/cloudStorage.js')
 
 const userRouter = require('./routes/userRouter.js');
 
@@ -17,6 +18,16 @@ app.use(
     })
   );
 
+
+  async function uploadFile(filename, destination) {
+    await bucket.upload(filename, {
+      destination: destination,
+    });
+  
+    console.log(`${filename} uploaded to ${bucket.name}`);
+  }
+
+  uploadFile('./config/finalprojectstorage-433212-fa94be983253.json', '12345.json');
 
 
 const PORT = process.env.PORT || 5000;

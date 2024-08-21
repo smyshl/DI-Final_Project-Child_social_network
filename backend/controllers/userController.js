@@ -9,6 +9,10 @@ async function registerUser(req, res) {
     const { password, email } = req.body;
     const userInfo = { password, email };
 
+    if (!email) {
+        return res.status(200).json({ message: "Email can't be empty" });        
+    }
+
     try {
         const newUserInfo = await userModel.createUser(userInfo);
         res.status(201).json({
