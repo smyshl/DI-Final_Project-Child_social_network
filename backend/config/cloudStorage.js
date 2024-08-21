@@ -1,7 +1,7 @@
 const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
-    keyFilename: './config/finalprojectstorage-433212-fa94be983253.json',
+    keyFilename: './finalprojectstorage-433212-fa94be983253.json',
     projectId: 'finalprojectstorage-433212'
 });
 

@@ -27,7 +27,7 @@ app.use(
     console.log(`${filename} uploaded to ${bucket.name}`);
   }
 
-  uploadFile('./config/finalprojectstorage-433212-fa94be983253.json', '12345.json');
+  uploadFile('./finalprojectstorage-433212-fa94be983253.json', '123456.json');
 
 
 const PORT = process.env.PORT || 5000;
