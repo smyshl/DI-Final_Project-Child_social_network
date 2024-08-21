@@ -32,7 +32,7 @@ app.use('/user', userRouter);
 
 
 
-  async function uploadFile(filename, destination) {
+//   async function uploadFile(filename, destination) {
 //     await bucket.upload(filename, {
 //       destination: destination,
 //     });
