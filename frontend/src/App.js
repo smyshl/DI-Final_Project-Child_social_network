@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react";
+import { Routes, Route } from "react-router-dom";
 
-import LoginRegister from "./components/LoginRegister";
+import LoginRegister from "./components/LoginRegister.jsx";
+import HomePage from "./components/HomePage.jsx";
 
 import logo from './logo.svg';
 import './App.css';
@@ -29,8 +31,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<LoginRegister action={'Register'} />} />
+          <Route path="/login" element={<LoginRegister action={'Login'}/>} />   
 
-        <LoginRegister />
+        </Routes>
 
       </header>
     </div>

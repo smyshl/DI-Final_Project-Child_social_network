@@ -1,41 +1,72 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button } from '@mui/material';
 
 
-const LoginRegister = () => {
+const LoginRegister = ({action}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
+    const navigate = useNavigate();
+
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const loginregister = async () => {
-        try {
-            const response = await axios.post(
-            "http://localhost:5000/user/register",
-            { email, password },
-            // { withCredentials: true }
-            );
+        if (action === 'Register') {
+            try {
+                const response = await axios.post(
+                `${BASE_URL}/user/register`,
+                { email, password },
+                { withCredentials: true }
+                );
 
-            if (response.status === 201) {
-              setMessage(response.data.message);
-              console.log(response.data);
-              // context
-            //   navigate('/login')
-            }
-
-            else if(response.status === 200 ){
+                if (response.status === 201) {
                 setMessage(response.data.message);
-            console.log(response.data);
+                console.log(response.data);
+                // context
+                  navigate('/login')
+                }
+
+                else if(response.status === 200 ){
+                    setMessage(response.data.message);
+                console.log(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+                setMessage(error.response.data.message);
             }
-        } catch (error) {
-            console.log(error);
-            setMessage(error.response.data.message);
+        }
+        else {
+            try {
+                const response = await axios.post(
+                `${BASE_URL}/user/login`,
+                { email, password },
+                { withCredentials: true }
+                );
+
+                if (response.status === 201) {
+                setMessage(response.data.message);
+                console.log(response.data);
+                // context
+                  navigate('/')
+                }
+
+                else if(response.status === 200 ){
+                    setMessage(response.data.message);
+                console.log(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+                setMessage(error.response.data.message);
+            }
         }
     };
 
     return (
         <>
-          <h2>{'Register'}</h2>
+          <h2>{action}</h2>
 
           <Box component={"form"} sx={{ m: 1 }} noValidate autoComplete='off'>
             <TextField
@@ -57,7 +88,7 @@ const LoginRegister = () => {
             />
           </Box>
           <Button variant='contained' onClick={loginregister}>
-            {"Register"}
+            {action}
           </Button>
           <div>{message}</div>
         </>

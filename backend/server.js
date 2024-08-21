@@ -9,9 +9,13 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors());
 
-
+app.use(
+    cors({
+      credentials: true,
+      origin: ["http://localhost:3000", "https://di-final-project-child-social-network-lz8d.onrender.com"],
+    })
+  );
 
 
 

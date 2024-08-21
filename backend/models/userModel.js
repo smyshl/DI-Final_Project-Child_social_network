@@ -3,19 +3,14 @@ const bcrypt = require('bcrypt');
 
 
 async function createUser({ password, email }) {
-
     const trx = await db.transaction();
 
     try {
-        
         const hashPassword = await bcrypt.hash(password + '', 10);
-
         const [ user ] = await trx('users').insert({ email, password: hashPassword}, ['id', 'email']);
 
         await trx.commit();
-
         return user;
-
     } catch (error) {
         await trx.rollback();
         console.log(error);
@@ -24,7 +19,34 @@ async function createUser({ password, email }) {
 };
 
 
+async function getUserByEmail(email) {
+        try {
+          const user = await db("users")
+            .select("id", "email", "password", "role")
+            .where("email", email)
+            .first();
+          return user;
+        } catch (error) {
+          throw error;
+        }
+};
+
+
+async function updateRefreshToken(id, refreshToken) {
+    try {
+        const user = await db("sers")
+          .update({ token: refreshToken })
+          .where({ id });
+        return user;
+      } catch (error) {
+        throw error;
+      }
+};
+
+
 module.exports = {
     createUser,
-    
+    getUserByEmail,
+    updateRefreshToken,
+
 }
