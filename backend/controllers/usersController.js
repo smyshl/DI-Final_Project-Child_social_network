@@ -1,4 +1,4 @@
-const userModel = require('../models/userModel.js');
+const usersModel = require('../models/usersModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -14,7 +14,7 @@ async function registerUser(req, res) {
     }
 
     try {
-        const newUserInfo = await userModel.createUser(userInfo);
+        const newUserInfo = await usersModel.createUser(userInfo);
         res.status(201).json({
             message: "User registered successfully",
             user: newUserInfo,
@@ -34,7 +34,7 @@ async function loginUser(req, res) {
     const { email, password } = req.body;
 
     try {
-        const user = await userModel.getUserByEmail(email);
+        const user = await usersModel.getUserByEmail(email);
         if (!user) {
             return res.status(404).json({ message: `User with email '${email}' not found`})
         }

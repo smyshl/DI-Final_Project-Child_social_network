@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 // const bucket = require('./config/cloudStorage.js')
 
-const userRouter = require('./routes/userRouter.js');
+const usersRouter = require('./routes/usersRouter.js');
+const postsRouter = require('./routes/postsRouter.js')
 
 
 const app = express();
@@ -27,7 +28,8 @@ app.listen(PORT, () => {
   });
 
 
-app.use('/user', userRouter);
+app.use('/user', usersRouter);
+app.use('/post', postsRouter);
 
 
 

@@ -86,7 +86,7 @@ function AddFiles({setPostFileList}) {
             {
                 selectedFiles.map((file, index) => (
                     // file.split(';')[0].split(':')[1].startsWith('image/') ? <img key={index} src={file} style={{width: '50px', margin: '5px'}} /> : <video key={index} controls> <source src={file} /></video>
-                    <img key={index} src={file} style={{width: '50px', margin: '5px'}} />
+                    <img key={index} src={file} style={{width: '60px', margin: '5px'}} />
                 ))
             }
             </div>
