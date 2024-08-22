@@ -6,8 +6,6 @@ function HomePage() {
         <>
             <h1>Welcome</h1>
 
-            <AddFiles />
-
         </>
     )
 };

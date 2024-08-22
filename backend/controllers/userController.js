@@ -36,7 +36,7 @@ async function loginUser(req, res) {
     try {
         const user = await userModel.getUserByEmail(email);
         if (!user) {
-            return res.status(404).json({ message: `User with email "${email}" not found`})
+            return res.status(404).json({ message: `User with email '${email}' not found`})
         }
 
         const passwordMatch = await bcrypt.compare(password + '', user.password);
