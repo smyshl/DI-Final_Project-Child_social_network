@@ -19,8 +19,19 @@ async function uploadFileToGoogleCloudStorage(file, filename) {
 
     } catch (error) {
         console.log(error);
-    }
+    };
+};
 
+
+async function generateSignedUrl(storage_filename) {
+    const options = {
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 24 * 60 * 60 * 1000,
+    };
+
+    const [ url ] = await bucket.file(storage_filename).getSignedUrl(options);
+    return url;
 }
 
 
@@ -37,12 +48,16 @@ async function uploadImagesVideos({post_id, files}) {
 
     try {
 
+        const signedUrls = [];
+
         for (let index in files) {
             const storage_filename = 'postid_' + post_id + '_indexinpost_' + index +'_originalname' + files[index].originalname;
             await uploadFileToGoogleCloudStorage(files[index], storage_filename);
             await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename});
+            signedUrls[index] = await generateSignedUrl(storage_filename);
         };
         
+        return signedUrls;
 
         // console.log(files[0]);
         

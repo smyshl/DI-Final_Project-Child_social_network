@@ -9,7 +9,7 @@ async function addPost(req, res) {
     const postInfo = { author, created_at, title, text_content };
 
     // console.log(media);
-    // console.log(req.files);
+    console.log(req.files);
     
 
     if (!title && !text_content && (!req.file || req.file.length === 0)) {
@@ -18,10 +18,10 @@ async function addPost(req, res) {
 
     try {
         const newPostInfo = await postsModel.addPost(postInfo);
-        let newMediaInfo;
+        let signedUrls = [];
         let message = '';
         try {
-            await images_videosController.uploadImagesVideos({post_id: newPostInfo.id, files: req.files});
+            signedUrls = await images_videosController.uploadImagesVideos({post_id: newPostInfo.id, files: req.files});
             message = 'Media added successfully'
         } catch (error) {
             console.log(error);
@@ -33,7 +33,7 @@ async function addPost(req, res) {
         res.status(201).json({
             message: "Post added successfully. " + message,
             post: newPostInfo,
-            // media: newMediaInfo,
+            uploadedFiles: signedUrls,
         });
         
     } catch (error) {

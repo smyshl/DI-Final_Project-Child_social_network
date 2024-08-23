@@ -8,7 +8,7 @@ const upload = multer({storage: storage});  // upload files into memory
 const router = express.Router();
 
 
-router.post('/create', upload.array('files'), postsController.addPost);
+router.post('/add', upload.array('files'), postsController.addPost);
 
 
 module.exports = router;
