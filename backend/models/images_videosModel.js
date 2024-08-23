@@ -1,7 +1,7 @@
 const { db } = require('../config/db.js');
 
 
-async function createMedia({ post_id, original_filename, storage_filename, storage_url }) {
+async function addImagesVideos({ post_id, original_filename, storage_filename, storage_url }) {
     const trx = await db.transaction();
 
     try {
@@ -19,6 +19,6 @@ async function createMedia({ post_id, original_filename, storage_filename, stora
 
 
 module.exports = {
-    createMedia,
+    addImagesVideos,
 
 }

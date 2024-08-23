@@ -1,7 +1,7 @@
 const { db } = require('../config/db.js');
 
 
-async function createPost({ author, created_at, title, text_content }) {
+async function addPost({ author, created_at, title, text_content}) {
     const trx = await db.transaction();
 
     try {
@@ -19,6 +19,6 @@ async function createPost({ author, created_at, title, text_content }) {
 
 
 module.exports = {
-    createPost,
+    addPost,
 
 }
