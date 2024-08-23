@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginRegister from "./components/LoginRegister.jsx";
 import HomePage from "./components/HomePage.jsx";
 import AddFiles from "./components/AddFiles.jsx";
+import AddUpdatePost from "./components/AddUpdatePost.jsx";
 
 import logo from './logo.svg';
 import './App.css';
@@ -33,6 +34,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+
+      <AddUpdatePost />
+
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<LoginRegister action={'Register'} />} />
@@ -41,7 +45,7 @@ function App() {
         </Routes>
 
       </header>
-      <AddFiles />
+
     </div>
   );
 }
