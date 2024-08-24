@@ -5,6 +5,7 @@ import LoginRegister from "./components/LoginRegister.jsx";
 import HomePage from "./components/HomePage.jsx";
 import AddFiles from "./components/AddFiles.jsx";
 import AddUpdatePost from "./components/AddUpdatePost.jsx";
+import Header from "./components/Header.jsx";
 
 import logo from './logo.svg';
 import './App.css';
@@ -34,6 +35,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+
+      <Header />
 
       <AddUpdatePost />
 

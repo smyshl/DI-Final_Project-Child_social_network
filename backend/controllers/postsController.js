@@ -9,15 +9,17 @@ async function addPost(req, res) {
     const postInfo = { author, created_at, title, text_content };
 
     // console.log(media);
-    console.log(req.files);
+    console.log("addPost controller, files in post =>", req.files);
     
 
-    if (!title && !text_content && (!req.file || req.file.length === 0)) {
+    if (!title && !text_content && (!req.files || req.files.length === 0)) {
         return res.status(200).json({ message: "Post can't be empty" });        
     }
 
     try {
         const newPostInfo = await postsModel.addPost(postInfo);
+        console.log("new post added =>", postInfo);
+        
         let signedUrls = [];
         let message = '';
         try {
@@ -33,7 +35,7 @@ async function addPost(req, res) {
         res.status(201).json({
             message: "Post added successfully. " + message,
             post: newPostInfo,
-            uploadedFiles: signedUrls,
+            signedUrls,
         });
         
     } catch (error) {

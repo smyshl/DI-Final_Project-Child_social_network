@@ -1,6 +1,6 @@
 const postsModel = require('../models/postsModel.js');
 const images_videosModel = require('../models/images_videosModel.js')
-const bucket = require('../config/cloudStorage.js')
+const { bucket } = require('../config/cloudStorage.js')
 
 
 async function uploadFileToGoogleCloudStorage(file, filename) {

@@ -6,8 +6,11 @@ async function addPost({ author, created_at, title, text_content}) {
 
     try {
 
-        const [ post ] = await trx('posts').insert({ author, created_at, title, text_content, last_updated_at: created_at}, ['id', 'title']);
+        console.log("addPost, trying to add a post");    
 
+        const [ post ] = await trx('posts').insert({ author, created_at, title, text_content, last_updated_at: created_at}, ['id', 'title']);
+        
+        console.log("addPost, add post =>", post);
         await trx.commit();
         return post;
     } catch (error) {

@@ -1,7 +1,11 @@
-
+import { useEffect } from "react";
 
 function Post({props}) {
 
+    useEffect(() => {
+        console.log("Post props =>", props);
+        
+    }, [props]);
 
     return (
         <>

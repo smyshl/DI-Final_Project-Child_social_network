@@ -1,10 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-// const bucket = require('./config/cloudStorage.js')
+const { getBucketMetadata, configureBucketCors } = require('./config/cloudStorage.js')
 
 const usersRouter = require('./routes/usersRouter.js');
 const postsRouter = require('./routes/postsRouter.js')
-
 
 const app = express();
 
@@ -20,8 +19,6 @@ app.use(
   );
 
 
-
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`run on ${PORT}`);
@@ -32,6 +29,8 @@ app.use('/user', usersRouter);
 app.use('/post', postsRouter);
 
 
+// getBucketMetadata();
+// configureBucketCors().catch(console.error);
 
 
 //   async function uploadFile(filename, destination) {

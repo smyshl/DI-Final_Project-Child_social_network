@@ -28,7 +28,7 @@ async function uploadPost(title, text, files) {
             }
         });
 
-        console.log('Post uploaded successfully');
+        console.log('Post sent to server successfully');
 
         return response;
         
@@ -55,7 +55,7 @@ function AddUpdatePost() {
         uploadPost(postTitle, postText, postFileList)
         // .then(res => res.json())
         // .then(data => console.log(data.uploadedFiles))
-        .then(res => setSignedUrls(res.data.uploadedFiles))
+        .then(res => setSignedUrls(res.data.signedUrls))
         .catch(err => console.log(err));
         // .then(res => setSignedUrls([...res]))
         
