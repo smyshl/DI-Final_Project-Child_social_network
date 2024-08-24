@@ -72,6 +72,8 @@ async function loginUser(req, res) {
             maxAge: 60 * 60 * 1000 * 24 * 3,
         });
 
+        localStorage.setItem("user", JSON.stringify({ id: user.id, first_name: user.first_name, role: user.role}));
+
         res.status(201).json({
             message: "Login succesfully",
             user: { userid: user.id, email: user.email, role: user.role },

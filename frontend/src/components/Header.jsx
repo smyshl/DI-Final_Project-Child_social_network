@@ -13,6 +13,18 @@ const Header = (props) => {
       <Button LinkComponent={Link} to='/register'>
         Register
       </Button>
+      <Button LinkComponent={Link} to='/newpost'>
+        Add Post
+      </Button>
+      <Button LinkComponent={Link} to='/register'>
+        View feed
+      </Button>
+      <Button LinkComponent={Link} to='/register'>
+        View users
+      </Button>
+      <Button LinkComponent={Link} to='/register'>
+        Add user
+      </Button>
     </Stack>
   );
 };

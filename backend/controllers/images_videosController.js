@@ -27,11 +27,15 @@ async function generateSignedUrl(storage_filename) {
     const options = {
         version: 'v4',
         action: 'read',
-        expires: Date.now() + 24 * 60 * 60 * 1000,
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // Max allowed expiration is seven days (604800 seconds)
     };
 
-    const [ url ] = await bucket.file(storage_filename).getSignedUrl(options);
-    return url;
+    const url_expires_at = new Date(options.expires)
+    console.log("url expires at", url_expires_at);
+    
+
+    const [ storage_url ] = await bucket.file(storage_filename).getSignedUrl(options);
+    return { storage_url, url_expires_at};
 }
 
 
@@ -53,8 +57,12 @@ async function uploadImagesVideos({post_id, files}) {
         for (let index in files) {
             const storage_filename = 'postid_' + post_id + '_indexinpost_' + index +'_originalname' + files[index].originalname;
             await uploadFileToGoogleCloudStorage(files[index], storage_filename);
-            await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename});
-            signedUrls[index] = await generateSignedUrl(storage_filename);
+
+            const { storage_url, url_expires_at } = await generateSignedUrl(storage_filename);
+
+            await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at});
+            
+            signedUrls[index] = storage_url;
         };
         
         return signedUrls;

@@ -33,21 +33,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      {/* <header className="App-header"> */}
+      <header>
 
-      <Header />
+        <Header />
 
-      <AddUpdatePost />
+      </header>
+      
+
+      {/* <AddUpdatePost /> */}
 
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<LoginRegister action={'Register'} />} />
-          <Route path="/login" element={<LoginRegister action={'Login'}/>} />   
+          <Route path="/login" element={<LoginRegister action={'Login'}/>} />
+          <Route path="/newpost" element={<AddUpdatePost />} />
+          <Route path="/updatepost" element={<AddUpdatePost />} />
 
         </Routes>
 
-      </header>
+      {/* </header> */}
 
     </div>
   );

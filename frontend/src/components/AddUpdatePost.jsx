@@ -12,9 +12,13 @@ async function uploadPost(title, text, files) {
     const URL = process.env.REACT_APP_BASE_URL;
     
     const formData = new FormData();
+    const currentTimeStamp = new Date().toISOString();
+    const currentUser = JSON.parse(localStorage.getItem('user'));
     
     formData.append('title', title);
     formData.append('text_content', text);
+    formData.append('created_at', currentTimeStamp)
+    formData.append('author', currentUser?.id || 0)
     for (let file of files){
         formData.append('files', file)        
     };
