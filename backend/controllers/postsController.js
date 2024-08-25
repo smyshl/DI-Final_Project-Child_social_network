@@ -9,10 +9,12 @@ async function addPost(req, res) {
     const postInfo = { author, created_at, title, text_content };
 
     // console.log(media);
-    console.log("addPost controller, files in post =>", req.files);
+    // console.log("addPost controller, files in post =>", req.files);
     
 
     if (!title && !text_content && (!req.files || req.files.length === 0)) {
+        console.log("addPost controller condition =>", !title && !text_content && (!req.files || req.files.length === 0));
+        
         return res.status(200).json({ message: "Post can't be empty" });        
     }
 
@@ -32,6 +34,10 @@ async function addPost(req, res) {
             // throw error;
         }
 
+        console.log("postController right before sending links to front, message =>:", message);
+        console.log("postController right before sending links to front, newPostInfo =>:", newPostInfo);
+        console.log("postController right before sending links to front, signedURLs =>:", signedUrls);
+        
         res.status(201).json({
             message: "Post added successfully. " + message,
             post: newPostInfo,

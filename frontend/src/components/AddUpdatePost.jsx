@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from "react";
 
 import AddFiles from "./AddFiles.jsx";
@@ -54,20 +55,11 @@ function AddUpdatePost() {
         console.log(postTitle);
         console.log(postText);
         console.log(postFileList);
-        // console.log(REACT);
 
         uploadPost(postTitle, postText, postFileList)
-        // .then(res => res.json())
-        // .then(data => console.log(data.uploadedFiles))
         .then(res => setSignedUrls(res.data.signedUrls))
         .catch(err => console.log(err));
-        // .then(res => setSignedUrls([...res]))
-        
 
-        // console.log("signedURLS =>", urls);
-        
-
-        // setSignedUrls(urls);
     }
 
 

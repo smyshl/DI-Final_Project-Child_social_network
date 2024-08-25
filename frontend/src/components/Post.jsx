@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 function Post({props}) {
 
@@ -13,10 +14,10 @@ function Post({props}) {
 
         <div>Title - {props.postTitle}</div>
         <div>Text - {props.postText}</div>
-        <div>Images:
+        <div>
             {
-                props.signedUrls.map((url, index) => (
-                     <img key={index} src={url} style={{width: '200px', margin: '5px'}} />
+                props.signedUrls?.map((url, index) => (
+                     <img key={index} src={`${url}`} style={{width: '200px', margin: '5px'}} />
                 ))
             }
         </div>

@@ -3,23 +3,38 @@ const images_videosModel = require('../models/images_videosModel.js')
 const { bucket } = require('../config/cloudStorage.js')
 
 
-async function uploadFileToGoogleCloudStorage(file, filename) {
+async function uploadFileToGoogleCloudStorage(file, storage_filename) {
 
-    try {
-        const blob = bucket.file(filename);
+    return new Promise((resolve, reject) => {
+        const blob = bucket.file(storage_filename);
         const blobStream = blob.createWriteStream({
             resumable: false,
             gzip: true,
             metadata: {contentType: file.mimetype},
         })
 
-        blobStream.on('error', () => {throw new Error `Error while uploading file ${filename}`})
-        blobStream.on('finish', () => console.log(`File ${filename} successfully uploaded`));
+        blobStream.on('finish', async () => {
+            try {
+                const currentTimeStamp = new Date().toISOString();
+                console.log(`File ${storage_filename} successfully uploaded`, currentTimeStamp);
+                const result = await generateSignedUrl(storage_filename);
+                resolve(result);
+            } catch (error) {
+                console.log(error);
+                reject(error);
+            }
+        });
+
+
+        blobStream.on('error', () => {
+            reject(error);
+            throw new Error `Error while uploading file ${storage_filename}`
+        });
+
+
         blobStream.end(file.buffer)
 
-    } catch (error) {
-        console.log(error);
-    };
+    });
 };
 
 
@@ -31,11 +46,17 @@ async function generateSignedUrl(storage_filename) {
     };
 
     const url_expires_at = new Date(options.expires)
-    console.log("url expires at", url_expires_at);
-    
 
-    const [ storage_url ] = await bucket.file(storage_filename).getSignedUrl(options);
-    return { storage_url, url_expires_at};
+    try {
+        const [ storage_url ] = await bucket.file(storage_filename).getSignedUrl(options);
+        console.log(`URL for the file ${storage_filename} created successfully, expires at`, url_expires_at); 
+        const currentTimeStamp = new Date().toISOString();
+        console.log("URL created", currentTimeStamp);
+           
+        return {storage_url, url_expires_at};        
+    } catch (error) {
+        console.log(error);  
+    }
 }
 
 
@@ -43,7 +64,7 @@ async function generateSignedUrl(storage_filename) {
 async function uploadImagesVideos({post_id, files}) {
 
     // console.log(media);
-    console.log("uploadImagesVideos", files, files.length);
+    // console.log("uploadImagesVideos", files, files.length);
     
 
     if (!files || files.length === 0) {
@@ -56,14 +77,24 @@ async function uploadImagesVideos({post_id, files}) {
 
         for (let index in files) {
             const storage_filename = 'postid_' + post_id + '_indexinpost_' + index +'_originalname' + files[index].originalname;
-            await uploadFileToGoogleCloudStorage(files[index], storage_filename);
+            const { storage_url, url_expires_at } = await uploadFileToGoogleCloudStorage(files[index], storage_filename)
+            // .then(res => console.log('uploadFileToGoogleCloudStorage promise resolve =>', res))
+            // .then(res => signedUrls[index] = res.storage_url)
+            // .then(res => images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at: res.url_expires_at}))
+            // .catch(err => console.log(err));
+            
+            console.log("images_videoController =>", storage_url, url_expires_at);
+            
 
-            const { storage_url, url_expires_at } = await generateSignedUrl(storage_filename);
+            // const { storage_url, url_expires_at } = await generateSignedUrl(storage_filename);
 
-            await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at});
+            // await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at});
             
             signedUrls[index] = storage_url;
         };
+
+        console.log("images_videoController signedUrls=>", signedUrls);
+        
         
         return signedUrls;
 
