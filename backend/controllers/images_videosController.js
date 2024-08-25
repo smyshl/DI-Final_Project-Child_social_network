@@ -88,7 +88,7 @@ async function uploadImagesVideos({post_id, files}) {
 
             // const { storage_url, url_expires_at } = await generateSignedUrl(storage_filename);
 
-            // await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at});
+            await images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at});
             
             signedUrls[index] = storage_url;
         };
