@@ -25,7 +25,15 @@ async function getAllPosts() {
 
     try {
         
-        const allPosts = await db('posts').select("id", "created_at", "last_updated_at", "title", "text_content", "author");
+        const allPosts = await db('posts')
+        .select("posts.id", "created_at", "last_updated_at", "title", "text_content", "author")
+        .select(db.raw(`
+            COALESCE(array_agg(images_videos.storage_url)
+            FILTER (WHERE images_videos.id IS NOT NULL), '{}')
+            `))
+        .leftJoin('images_videos', 'posts.id', 'images_videos.post_id')
+        .groupBy('posts.id')
+        .orderBy('posts.id', 'desc');
 
         console.log("postsModel getAllPosts =>", allPosts);
 
