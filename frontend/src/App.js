@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage.jsx";
 import AddFiles from "./components/AddFiles.jsx";
 import AddUpdatePost from "./components/AddUpdatePost.jsx";
 import Header from "./components/Header.jsx";
+import Feed from './components/Feed.jsx'
 
 import logo from './logo.svg';
 import './App.css';
@@ -49,6 +50,7 @@ function App() {
           <Route path="/login" element={<LoginRegister action={'Login'}/>} />
           <Route path="/newpost" element={<AddUpdatePost />} />
           <Route path="/updatepost" element={<AddUpdatePost />} />
+          <Route path="/feed" element={<Feed />} />
 
         </Routes>
 

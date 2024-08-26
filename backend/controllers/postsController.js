@@ -51,8 +51,26 @@ async function addPost(req, res) {
 };
 
 
+async function getAllPosts(req, res) {
+
+    try {
+        
+        const allPosts = await postsModel.getAllPosts();
+
+        res.status(201).json({
+            message: "All posts successfully received",
+            allPosts,
+
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error });            
+    }
+};
+
+
 
 module.exports = {
     addPost,
-
+    getAllPosts,
 }

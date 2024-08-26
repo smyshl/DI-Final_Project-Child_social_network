@@ -75,7 +75,7 @@ function AddUpdatePost() {
 
         <button onClick={buttonClickHandle}>Add post</button>
         <br /> <br /> 
-
+        <h2>New post:</h2>
         <Post props={{postTitle, postText, signedUrls}} />
         
         </>

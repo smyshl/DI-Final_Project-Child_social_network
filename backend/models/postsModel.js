@@ -21,7 +21,24 @@ async function addPost({ author, created_at, title, text_content}) {
 };
 
 
+async function getAllPosts() {
+
+    try {
+        
+        const allPosts = await db('posts').select("id", "created_at", "last_updated_at", "title", "text_content", "author");
+
+        console.log("postsModel getAllPosts =>", allPosts);
+
+        return allPosts;
+    } catch (error) {
+        console.log(error);
+        
+    }
+
+}
+
+
 module.exports = {
     addPost,
-
+    getAllPosts,
 }
