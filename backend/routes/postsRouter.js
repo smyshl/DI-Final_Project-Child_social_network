@@ -9,6 +9,7 @@ const router = express.Router();
 
 
 router.post('/add', upload.array('files'), postsController.addPost);
+router.get('/all', postsController.getAllPosts);
 
 
 module.exports = router;

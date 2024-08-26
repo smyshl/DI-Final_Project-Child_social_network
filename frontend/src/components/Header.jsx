@@ -16,7 +16,7 @@ const Header = (props) => {
       <Button LinkComponent={Link} to='/newpost'>
         Add Post
       </Button>
-      <Button LinkComponent={Link} to='/register'>
+      <Button LinkComponent={Link} to='/feed'>
         View feed
       </Button>
       <Button LinkComponent={Link} to='/register'>

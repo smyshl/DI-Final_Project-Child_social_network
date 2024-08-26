@@ -34,9 +34,9 @@ async function addPost(req, res) {
             // throw error;
         }
 
-        console.log("postController right before sending links to front, message =>:", message);
-        console.log("postController right before sending links to front, newPostInfo =>:", newPostInfo);
-        console.log("postController right before sending links to front, signedURLs =>:", signedUrls);
+        // console.log("postController right before sending links to front, message =>:", message);
+        // console.log("postController right before sending links to front, newPostInfo =>:", newPostInfo);
+        // console.log("postController right before sending links to front, signedURLs =>:", signedUrls);
         
         res.status(201).json({
             message: "Post added successfully. " + message,
@@ -51,8 +51,26 @@ async function addPost(req, res) {
 };
 
 
+async function getAllPosts(req, res) {
+
+    try {
+        
+        const allPosts = await postsModel.getAllPosts();
+
+        res.status(201).json({
+            message: "All posts successfully received",
+            allPosts,
+
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error });            
+    }
+};
+
+
 
 module.exports = {
     addPost,
-
+    getAllPosts,
 }
