@@ -1,7 +1,20 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import ImageModal from "./ImageModal";
 
 
 function Post({props}) {
+
+    const [ selectedImage, setSelectedImage ] = useState(null);
+
+    const onClickImageHandle = (e) => {
+        console.log("Post component onClickImageHandle urlToOpen", e.target.src);    
+        setSelectedImage(e.target.src);
+    }
+
+    const closeModal = () => {
+        setSelectedImage(null);
+    }
 
     console.log("Post component, props =>", props);
 
@@ -45,10 +58,13 @@ function Post({props}) {
         <div>
             {
                 props.signedUrls?.map((url, index) => (
-                     <img key={index} data-src={url} ref={el => imgRefs.current[index] = el} style={{width: '200px', margin: '5px'}} />
+                     <img key={index} data-src={url} ref={el => imgRefs.current[index] = el} style={{width: '200px', margin: '5px'}} onClick={(e) => onClickImageHandle(e)} />
                 ))
             }
         </div>
+
+        <ImageModal signedUrl={selectedImage} onClose={closeModal} />
+
         </>
     )
 };
