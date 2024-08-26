@@ -51,7 +51,7 @@ async function generateSignedUrl(storage_filename) {
         const [ storage_url ] = await bucket.file(storage_filename).getSignedUrl(options);
         console.log(`URL for the file ${storage_filename} created successfully, expires at`, url_expires_at); 
         const currentTimeStamp = new Date().toISOString();
-        console.log("URL created", currentTimeStamp);
+        // console.log("URL created", currentTimeStamp);
            
         return {storage_url, url_expires_at};        
     } catch (error) {
@@ -83,7 +83,7 @@ async function uploadImagesVideos({post_id, files}) {
             // .then(res => images_videosModel.addImagesVideos({post_id, original_filename: files[index].originalname, storage_filename, storage_url, url_expires_at: res.url_expires_at}))
             // .catch(err => console.log(err));
             
-            console.log("images_videoController =>", storage_url, url_expires_at);
+            // console.log("images_videoController =>", storage_url, url_expires_at);
             
 
             // const { storage_url, url_expires_at } = await generateSignedUrl(storage_filename);
@@ -93,7 +93,7 @@ async function uploadImagesVideos({post_id, files}) {
             signedUrls[index] = storage_url;
         };
 
-        console.log("images_videoController signedUrls=>", signedUrls);
+        // console.log("images_videoController signedUrls=>", signedUrls);
         
         
         return signedUrls;

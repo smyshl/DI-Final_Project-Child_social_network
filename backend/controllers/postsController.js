@@ -34,9 +34,9 @@ async function addPost(req, res) {
             // throw error;
         }
 
-        console.log("postController right before sending links to front, message =>:", message);
-        console.log("postController right before sending links to front, newPostInfo =>:", newPostInfo);
-        console.log("postController right before sending links to front, signedURLs =>:", signedUrls);
+        // console.log("postController right before sending links to front, message =>:", message);
+        // console.log("postController right before sending links to front, newPostInfo =>:", newPostInfo);
+        // console.log("postController right before sending links to front, signedURLs =>:", signedUrls);
         
         res.status(201).json({
             message: "Post added successfully. " + message,

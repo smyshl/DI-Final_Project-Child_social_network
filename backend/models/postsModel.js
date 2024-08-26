@@ -6,11 +6,11 @@ async function addPost({ author, created_at, title, text_content}) {
 
     try {
 
-        console.log("addPost, trying to add a post");    
+        // console.log("addPost, trying to add a post");    
 
         const [ post ] = await trx('posts').insert({ author, created_at, title, text_content, last_updated_at: created_at}, ['id', 'title']);
         
-        console.log("addPost, add post =>", post);
+        // console.log("addPost, add post =>", post);
         await trx.commit();
         return post;
     } catch (error) {
@@ -33,9 +33,10 @@ async function getAllPosts() {
             `))
         .leftJoin('images_videos', 'posts.id', 'images_videos.post_id')
         .groupBy('posts.id')
-        .orderBy('posts.id', 'desc');
+        .orderBy('posts.id', 'desc')
+        .limit(10);
 
-        console.log("postsModel getAllPosts =>", allPosts);
+        // console.log("postsModel getAllPosts =>", allPosts);
 
         return allPosts;
     } catch (error) {

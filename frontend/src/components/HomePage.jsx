@@ -6,7 +6,7 @@ function HomePage() {
         <>
             <h1>Welcome to the Hamster network</h1>
 
-            <img src={`${process.env.PUBLIC_URL}/hamster_logo.webp`} style={{width: '20rem'}}></img>
+            <img src={`${process.env.PUBLIC_URL}/hamster_logo.webp`} style={{width: '23rem'}}></img>
 
         </>
     )

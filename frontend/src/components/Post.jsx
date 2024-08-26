@@ -1,14 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 
 function Post({props}) {
 
-    // console.log("Post component, props =>", props);
+    console.log("Post component, props =>", props);
 
-    // useEffect(() => {
-    //     console.log("Post props =>", props);
+    const imgRefs = useRef([]);
+
+    useEffect(() => {
+
+        const lazyLoadImages = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    observer.unobserve(img);
+                };
+            });
+        };
+
+        const observer = new IntersectionObserver(lazyLoadImages, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        imgRefs.current.forEach((imgRef) => {
+            if (imgRef) {
+                observer.observe(imgRef);
+            }
+        });
+
+        return () => {
+            observer.disconnect();
+        };
         
-    // }, [props]);
+    }, [props]);
 
     return (
         <>
@@ -18,7 +45,7 @@ function Post({props}) {
         <div>
             {
                 props.signedUrls?.map((url, index) => (
-                     <img key={index} src={url} style={{width: '200px', margin: '5px'}} />
+                     <img key={index} data-src={url} ref={el => imgRefs.current[index] = el} style={{width: '200px', margin: '5px'}} />
                 ))
             }
         </div>
