@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import ImageModal from "./ImageModal";
+import ImageModal from "./ImageModal.jsx";
 
 
 function Post({props}) {
