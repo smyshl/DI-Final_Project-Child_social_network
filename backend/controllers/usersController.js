@@ -48,36 +48,35 @@ async function loginUser(req, res) {
         const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
         const accessToken = jwt.sign(
-            { userid: user.id, email: user.email },
+            { user_id: user.id, first_name: user.first_name, role: user.role },
             ACCESS_TOKEN_SECRET,
             { expiresIn: "60s" }
         );
 
         const refreshToken = jwt.sign(
-            { userid: user.id, email: user.email },
+            { user_id: user.id, first_name: user.first_name, role: user.role },
             REFRESH_TOKEN_SECRET,
-            { expiresIn: "3d" }
+            { expiresIn: "1h" }
         );
 
-        // set token in httpOnly
-        res.cookie("token", accessToken, {
-            httpOnly: true,
-            // secure:
-            maxAge: 60 * 1000,
-        });
+        // set token in header
+        res.set('x-access-token', accessToken);
 
         res.cookie("refresh", refreshToken, {
             httpOnly: true,
-            // secure:
-            maxAge: 60 * 60 * 1000 * 24 * 3,
+            secure: true,
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000,
         });
 
-        localStorage.setItem("user", JSON.stringify({ id: user.id, first_name: user.first_name, role: user.role}));
+        // localStorage.setItem("user", JSON.stringify({ id: user.id, first_name: user.first_name, role: user.role}));
+
+        // console.log("usersController loginUser res =>", res);
+        
 
         res.status(201).json({
             message: "Login succesfully",
-            user: { userid: user.id, email: user.email, role: user.role },
-            token: accessToken,
+            user: { userid: user.id, email: user.email, role: user.role, first_name: user.first_name },
             refresh: refreshToken,
           });
 

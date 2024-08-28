@@ -1,13 +1,17 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button } from '@mui/material';
+
+// import { AuthContext } from '../auth/AuthProvider.jsx';
 
 
 const LoginRegister = ({action}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+
+    // const { setUser, setAccessToken } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -48,13 +52,15 @@ const LoginRegister = ({action}) => {
 
                 if (response.status === 201) {
                 setMessage(response.data.message);
-                console.log(response.data);
+                // setUser(response.data.user)
+                // setAccessToken(response.headers['x-access-token'])
+                // console.log("LoginRegister component, loginregister, login, response =>", response.headers['x-access-token']);
                 // context
-                  navigate('/')
+                  navigate('/feed')
                 }
 
                 else if(response.status === 200 ){
-                    setMessage(response.data.message);
+                setMessage(response.data.message);
                 console.log(response.data);
                 }
             } catch (error) {

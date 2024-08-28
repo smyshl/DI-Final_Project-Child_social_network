@@ -15,6 +15,7 @@ app.use(
     cors({
       credentials: true,
       origin: ["http://localhost:3000", "https://di-final-project-child-social-network-lz8d.onrender.com"],
+      exposedHeaders: ['x-access-token'],
     })
   );
 

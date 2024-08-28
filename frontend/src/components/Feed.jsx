@@ -1,11 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
-import Post from "./Post";
+import Post from "./Post.jsx";
+// import { AuthContext } from "../auth/AuthProvider.jsx";
 
 
 function Feed() {
 
+    // const { user, accessToken } = useContext(AuthContext);
+
+    console.log("Feed Component, user, accessToken");
+    
     const [ allPosts, setAllPosts] = useState([]);
 
     const getAllPosts = async() => {
@@ -34,11 +39,11 @@ function Feed() {
 
     return (
         <>
-            <h2>Feed</h2>
+            {/* <h2>Hi, {user?.first_name}</h2> */}
             {
             allPosts?.map((post, index) => (
                 <div key={index}>
-                     <Post props={{postTitle: post.title, postText: post.text_content, signedUrls: post.coalesce}} />
+                     <Post props={{postTitle: post.title, postText: post.text_content, signedUrls: post.coalesce, postId: post.id}} />
                      <br />
                 </div>
             ))
