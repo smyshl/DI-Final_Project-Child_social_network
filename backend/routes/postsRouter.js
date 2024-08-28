@@ -9,7 +9,7 @@ const upload = multer({storage: storage});  // upload files into memory
 const router = express.Router();
 
 
-router.post('/add', upload.array('files'), postsController.addPost);
+router.post('/add', verifyToken, upload.array('files'), postsController.addPost);
 router.get('/all', verifyToken, postsController.getAllPosts);
 
 

@@ -12,6 +12,11 @@ export function AuthProvider ({ children }) {
     const login = (userData, token) => {
         setUser(userData);
         setAccessToken(token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        console.log("AuthProvider component, login, userdata, token =>", userData, token);
+        
+
     };
     
     const logout = () => {

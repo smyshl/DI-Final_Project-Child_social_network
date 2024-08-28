@@ -85,9 +85,53 @@ async function loginUser(req, res) {
 };
 
 
+async function getNewAccessToken(req, res) {
+
+    const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+
+    // console.log("usersController, getNewAccessToken, request =>", req);
+    
+    try {
+      if (!req.cookies || !req.cookies.refresh)
+        return res.status(401).json({ message: "No refresh token found" });
+
+    const refreshToken = req.cookies.refresh;      
+
+      jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, decode) => {
+        if (err)
+          return res
+            .status(403)
+            .json({ message: "Access denied. Refresh token expired. Please log in again", error: err.message });
+
+        const { user_id, first_name, role } = decode
+
+        const accessToken = jwt.sign(
+          { user_id, first_name, role },
+          ACCESS_TOKEN_SECRET,
+          { expiresIn: "60s" }
+        );
+
+        res.set("x-access-token", accessToken);
+
+        res.status(201).json({
+          message: "New access token succesfully created",
+          user: { user_id, first_name, role }
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ message: "internal server error. Something goes wrong" });
+    }
+
+};
+
+
 module.exports = {
 
     registerUser,
     loginUser,
+    getNewAccessToken,
 
-}
+};

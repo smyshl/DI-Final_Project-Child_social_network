@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { getBucketMetadata, configureBucketCors } = require('./config/cloudStorage.js')
 
 const usersRouter = require('./routes/usersRouter.js');
@@ -10,7 +11,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
+app.use(cookieParser());
 app.use(
     cors({
       credentials: true,

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Post from "./Post.jsx";
 import Header from "./Header.jsx";
@@ -8,23 +9,17 @@ import { AuthContext } from "../auth/AuthProvider.jsx";
 
 function Feed() {
 
-    const { accessToken } = useContext(AuthContext);
+    const { accessToken, logout, login } = useContext(AuthContext);
 
     // console.log("Feed component Authcontext =>", AuthContext);
 
     const [ allPosts, setAllPosts] = useState([]);
-    const [ isAuthorized, setAuthorized ] = useState(Boolean(accessToken))    
+    const [ isAuthorized, setAuthorized ] = useState(Boolean(accessToken))
+    const [ userName, setUserName ] = useState("anonimous Hamster")
 
-    console.log("Feed component isAuthorized =>", isAuthorized);    
+    const navigate = useNavigate();
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    let userName;
-
-    if (user.first_name) {
-        userName = user.first_name;
-    } else {
-        userName = 'anonimous Hamster';
-    };
+    // console.log("Feed component isAuthorized =>", isAuthorized);
 
     // console.log("Feed Component, user, accessToken =>", accessToken);
     
@@ -46,26 +41,60 @@ function Feed() {
             return response.data.allPosts
 
         } catch (error) {        
-            console.log("Feed component getAllPosts catchError:", error.response.data.message);  
+            console.log("Feed component getAllPosts catchError:", error.response.data.message);
+            if (error.response.data.message === 'Access denied. Access token expired') getNewAccessToken();
         }
     }
 
 
     const getNewAccessToken = async() => {
-        console.log("Feed component getNewAccessToken =>", "ХУЙ");
-        
+        // console.log("Feed component getNewAccessToken =>", "ХУЙ");
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/getnewaccesstoken`, {
+                withCredentials: true
+            });
+            console.log("Feed component getNewAccessToken, response =>", response.headers['x-access-token']);
+            console.log("Feed component getNewAccessToken, response =>", response.data.user);
+
+            if (response.data.message === "New access token succesfully created"){
+                login(response.data.user, response.headers['x-access-token']);
+                setAuthorized(!isAuthorized);
+            }
+
+            if (response.status != 201) throw new Error ('Something wrong with response from server')
+
+        } catch (error) {
+            console.log("Feed component getNewAccessToken catchError:", error.response.data.message);
+            if (error.response?.data?.message === "No refresh token found") {
+                logout();
+                alert('Please log in');
+                navigate('/');
+            }
+        }
     }
 
 
     useEffect(() => {
+
+        console.log("Feed component useEffect isAuthorized =>", isAuthorized);
+
         if (isAuthorized) {
+
+            const user = JSON.parse(localStorage.getItem("user"));
+            console.log("Feed component, useEffect =>", user);
+            
+            if (user?.first_name) setUserName(user.first_name);
+            
             getAllPosts()
             .then(result => setAllPosts(result))
             // .then(res => console.log("Feed component, useEffect =>", res))
             .catch(error => console.log(error));  
         } else getNewAccessToken();
 
-    }, [])
+    }, [isAuthorized])
+
+
+
 
 
 
