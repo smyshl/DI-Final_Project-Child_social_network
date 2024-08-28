@@ -2,7 +2,7 @@ import './ImageModal.css'
 
 function ModalWindow({ children, isOpen, onClose}) {
 
-    console.log("ModalWindow component children, isOpen, setOpen =>", isOpen);
+    // console.log("ModalWindow component children, isOpen, setOpen =>", isOpen);
 
     if (!isOpen) return null;
   

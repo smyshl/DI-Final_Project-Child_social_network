@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button } from '@mui/material';
 
-// import { AuthContext } from '../auth/AuthProvider.jsx';
+import { AuthContext } from '../auth/AuthProvider.jsx';
 
 
 const LoginRegister = ({action}) => {
@@ -11,7 +11,7 @@ const LoginRegister = ({action}) => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
-    // const { setUser, setAccessToken } = useContext(AuthContext);
+    const { setUser, setAccessToken, login } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -51,12 +51,22 @@ const LoginRegister = ({action}) => {
                 );
 
                 if (response.status === 201) {
-                setMessage(response.data.message);
-                // setUser(response.data.user)
-                // setAccessToken(response.headers['x-access-token'])
-                // console.log("LoginRegister component, loginregister, login, response =>", response.headers['x-access-token']);
-                // context
-                  navigate('/feed')
+                  setMessage(response.data.message);
+                  login(response.data.user, response.headers["x-access-token"])
+                  // setUser(response.data.user);
+                  // setAccessToken(response.headers["x-access-token"]);
+                  console.log(
+                    "LoginRegister component, user, token =>",
+                    response.data.user,
+                    response.headers["x-access-token"]
+                  );
+                  localStorage.setItem(
+                    "user",
+                    JSON.stringify(
+                      response.data.user
+                    )
+                  );
+                  navigate("/feed");
                 }
 
                 else if(response.status === 200 ){
