@@ -8,7 +8,7 @@ function Post({props}) {
     const [ selectedImage, setSelectedImage ] = useState(null);
 
     const onClickImageHandle = (e) => {
-        console.log("Post component onClickImageHandle urlToOpen", e.target.src);    
+        // console.log("Post component onClickImageHandle urlToOpen", e.target.src);    
         setSelectedImage(e.target.src);
     }
 
@@ -16,7 +16,7 @@ function Post({props}) {
         setSelectedImage(null);
     }
 
-    console.log("Post component, props =>", props);
+    // console.log("Post component, props =>", props);
 
     const imgRefs = useRef([]);
 

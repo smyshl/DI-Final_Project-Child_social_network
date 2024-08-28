@@ -24,7 +24,7 @@ async function uploadPost(title, text, files) {
         formData.append('files', file)        
     };
 
-    console.log("formData =>", formData);
+    // console.log("formData =>", formData);
 
     try {
         const response = await axios.post(`${URL}/post/add`, formData, {
@@ -33,7 +33,7 @@ async function uploadPost(title, text, files) {
             }
         });
 
-        console.log('Post sent to server successfully');
+        // console.log('Post sent to server successfully');
 
         return response;
         
@@ -52,9 +52,9 @@ function AddUpdatePost() {
     const [ signedUrls, setSignedUrls ] = useState([]);
 
     const buttonClickHandle = (e) => {
-        console.log(postTitle);
-        console.log(postText);
-        console.log(postFileList);
+        // console.log(postTitle);
+        // console.log(postText);
+        // console.log(postFileList);
 
         uploadPost(postTitle, postText, postFileList)
         .then(res => setSignedUrls(res.data.signedUrls))

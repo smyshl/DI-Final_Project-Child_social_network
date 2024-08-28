@@ -22,7 +22,7 @@ async function createUser({ password, email }) {
 async function getUserByEmail(email) {
         try {
           const user = await db("users")
-            .select("id", "email", "password", "role")
+            .select("id", "email", "password", "role", "first_name")
             .where("email", email)
             .first();
           return user;
