@@ -8,6 +8,7 @@ import AddUpdatePost from "./AddUpdatePost.jsx";
 import { AuthContext } from "../auth/AuthProvider.jsx";
 import LoginRegister from "./LoginRegister.jsx"
 import ModalWindow from "./ModalWindow.jsx";
+import Header from "./Header.jsx";
 
 
 function Feed() {
@@ -114,11 +115,16 @@ function Feed() {
 
     return (
       <>
-        <div>
+
+        <header>
+          <Header setAddPostIsOpen={setAddPostIsOpen} addPostIsOpen={addPostIsOpen} />
+        </header>
+
+        {/* <div>
           <Button onClick={() => setAddPostIsOpen(!addPostIsOpen)}>
             Add post
           </Button>
-        </div>
+        </div> */}
 
 
         <ModalWindow isOpen={addPostIsOpen} onClose={onCloseAddPost}>
@@ -130,7 +136,7 @@ function Feed() {
             <LoginRegister action={'Login'}/>
         </ModalWindow>
 
-
+        <div id="feedMainWrapper">
         {allPosts?.map((post, index) => (
           <div key={index}>
             <Post
@@ -144,6 +150,7 @@ function Feed() {
             <br />
           </div>
         ))}
+        </div>
       </>
     );
 }

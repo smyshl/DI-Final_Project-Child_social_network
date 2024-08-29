@@ -22,10 +22,10 @@ function HomePage() {
 
     return (
       <>
-        <h1>Welcome to the Hamster network</h1>
+        <h1 style={{color: '#1e79d3'}}>Welcome to the Hamsters network</h1>
 
         <img
-          src={`${process.env.PUBLIC_URL}/hamster_logo.webp`}
+          src={`${process.env.PUBLIC_URL}/hamsters_images/2.webp`}
           style={{ width: "23rem" }}
         ></img>
 
@@ -34,9 +34,9 @@ function HomePage() {
             Login
           </Button>
         </div> */}
-
+        <br /><br />
         <div>
-          <Button onClick={loginClickHandle}>
+          <Button onClick={loginClickHandle} size="large">
             Login
           </Button>
         </div>

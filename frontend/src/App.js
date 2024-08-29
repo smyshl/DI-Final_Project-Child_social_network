@@ -36,9 +36,9 @@ function App() {
     <div className="App">
       {/* <header className="App-header"> */}
       
-      <header>
+      {/* <header>
           <Header />
-        </header>
+        </header> */}
 
       {/* <AddUpdatePost /> */}
 

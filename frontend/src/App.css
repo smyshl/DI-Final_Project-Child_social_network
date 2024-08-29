@@ -41,3 +41,7 @@ header {
   justify-content: center;
   display: flex;
 }
+
+#feedMainWrapper {
+  margin-top: 5rem;
+}

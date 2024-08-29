@@ -147,7 +147,7 @@ async function delRefreshToken(req, res) {
       refresh: refreshToken,
     });
 
-    console.log("usersController, delRefreshToken, res =>", res);
+    // console.log("usersController, delRefreshToken, res =>", res);
     
 
   } catch (error) {
