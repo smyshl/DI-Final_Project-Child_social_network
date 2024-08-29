@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button } from '@mui/material';
+
+import { AuthContext } from '../auth/AuthProvider.jsx';
 
 
 const LoginRegister = ({action}) => {
@@ -9,11 +11,13 @@ const LoginRegister = ({action}) => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
+    const { setUser, setAccessToken, login } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-    const loginregister = async () => {
+    const loginRegister = async () => {
         if (action === 'Register') {
             try {
                 const response = await axios.post(
@@ -47,14 +51,26 @@ const LoginRegister = ({action}) => {
                 );
 
                 if (response.status === 201) {
-                setMessage(response.data.message);
-                console.log(response.data);
-                // context
-                  navigate('/')
+                  setMessage(response.data.message);
+                  login(response.data.user, response.headers["x-access-token"])
+                  // setUser(response.data.user);
+                  // setAccessToken(response.headers["x-access-token"]);
+                  console.log(
+                    "LoginRegister component, user, token =>",
+                    response.data.user,
+                    response.headers["x-access-token"]
+                  );
+                  localStorage.setItem(
+                    "user",
+                    JSON.stringify(
+                      response.data.user
+                    )
+                  );
+                  navigate("/feed");
                 }
 
                 else if(response.status === 200 ){
-                    setMessage(response.data.message);
+                setMessage(response.data.message);
                 console.log(response.data);
                 }
             } catch (error) {
@@ -87,7 +103,7 @@ const LoginRegister = ({action}) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
-          <Button variant='contained' onClick={loginregister}>
+          <Button variant='contained' onClick={loginRegister}>
             {action}
           </Button>
           <div>{message}</div>

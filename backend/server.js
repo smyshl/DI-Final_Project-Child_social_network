@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { getBucketMetadata, configureBucketCors } = require('./config/cloudStorage.js')
 
 const usersRouter = require('./routes/usersRouter.js');
@@ -10,11 +11,12 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
+app.use(cookieParser());
 app.use(
     cors({
       credentials: true,
       origin: ["http://localhost:3000", "https://di-final-project-child-social-network-lz8d.onrender.com"],
+      exposedHeaders: ['x-access-token'],
     })
   );
 
@@ -23,6 +25,12 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`run on ${PORT}`);
   });
+
+// const printer = () => {
+//   setInterval( () => console.log("printer =>"), 10 * 1000 );
+// }
+
+// printer();
 
 
 app.use('/user', usersRouter);

@@ -2,7 +2,7 @@ import './ImageModal.css'
 
 function ImageModal({ signedUrl, onClose }) {
 
-    console.log("ImageModal. onCloseClickHandle =>", onClose);
+    // console.log("ImageModal. onCloseClickHandle =>", onClose);
 
     if (!signedUrl) return null;
   
