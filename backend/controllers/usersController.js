@@ -65,7 +65,7 @@ async function loginUser(req, res) {
         res.cookie("refresh", refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 60 * 60 * 1000,
         });
 
@@ -138,7 +138,7 @@ async function delRefreshToken(req, res) {
     res.cookie("refresh", refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
       maxAge: 60 * 1000,
     });
 
