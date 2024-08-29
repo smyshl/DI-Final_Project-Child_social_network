@@ -26,6 +26,12 @@ app.listen(PORT, () => {
     console.log(`run on ${PORT}`);
   });
 
+// const printer = () => {
+//   setInterval( () => console.log("printer =>"), 10 * 1000 );
+// }
+
+// printer();
+
 
 app.use('/user', usersRouter);
 app.use('/post', postsRouter);

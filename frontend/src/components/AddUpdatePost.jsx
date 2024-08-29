@@ -1,6 +1,7 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { useState, useContext } from "react";
+import { Alert } from "@mui/material";
 
 import AddFiles from "./AddFiles.jsx";
 import Post from "./Post.jsx";
@@ -9,12 +10,13 @@ import { AuthContext } from "../auth/AuthProvider.jsx";
 // const REACT_APP_BASE_URL = require('dotenv')
 
 
-function AddUpdatePost() {
+function AddUpdatePost({action}) {
 
     const [ postTitle, setPostTitle ] = useState('');
     const [ postText, setPostText ] = useState('');
     const [ postFileList, setPostFileList ] = useState([]);
     const [ signedUrls, setSignedUrls ] = useState([]);
+    const [ successUpload, setSuccessUpload] = useState(false)
 
     const { accessToken } = useContext(AuthContext);
 
@@ -62,7 +64,14 @@ function AddUpdatePost() {
         // console.log(postText);
         // console.log(postFileList);
 
-        uploadPost(accessToken, postTitle, postText, postFileList)
+        uploadPost(postTitle, postText, postFileList)
+        .then(res => {
+            if (res.status === 201){
+                setSuccessUpload(true)
+                // e.target.reset();
+                console.log("AddUpdateComponent buttonClickHandle uploadPost response =>", e.target)
+            }
+        })        
         .then(res => setSignedUrls(res?.data.signedUrls))
         .catch(err => console.log(err));
 
@@ -71,8 +80,8 @@ function AddUpdatePost() {
 
     return (
         <>
-        <h2>Add/Update post</h2>
-
+        <h2>{action}</h2>
+        {successUpload && <Alert severity="success">Post successfully uploaded</Alert>}
         <input id="postTitle" placeholder="Title" onChange={(e) => setPostTitle(e.target.value)} ></input> <br /> <br />
         
         <textarea id="postText" placeholder="Text" cols={40} rows={7} onChange={(e) => setPostText(e.target.value)} ></textarea>       
@@ -81,8 +90,8 @@ function AddUpdatePost() {
 
         <button onClick={buttonClickHandle}>Add post</button>
         <br /> <br /> 
-        <h2>New post:</h2>
-        <Post props={{postTitle, postText, signedUrls}} />
+        {/* <h2>New post:</h2>
+        <Post props={{postTitle, postText, signedUrls}} /> */}
         
         </>
     )

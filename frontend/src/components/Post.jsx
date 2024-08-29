@@ -55,8 +55,8 @@ function Post({props}) {
     return (
         <>
 
-        <div>Title - {props.postTitle}</div>
-        <div>Text - {props.postText}</div>
+        <div><strong>Title - {props.postTitle}</strong></div>
+        
         <div>
             {
                 props.signedUrls?.map((url, index) => (
@@ -64,6 +64,8 @@ function Post({props}) {
                 ))
             }
         </div>
+
+        <div>Text - {props.postText}</div>
 
         <ImageModal signedUrl={selectedImage} onClose={closeModal} />
 

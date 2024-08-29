@@ -17,7 +17,7 @@ const LoginRegister = ({action}) => {
 
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-    const loginregister = async () => {
+    const loginRegister = async () => {
         if (action === 'Register') {
             try {
                 const response = await axios.post(
@@ -103,7 +103,7 @@ const LoginRegister = ({action}) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Box>
-          <Button variant='contained' onClick={loginregister}>
+          <Button variant='contained' onClick={loginRegister}>
             {action}
           </Button>
           <div>{message}</div>

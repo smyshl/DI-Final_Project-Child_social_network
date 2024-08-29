@@ -124,8 +124,39 @@ async function getNewAccessToken(req, res) {
         .status(500)
         .json({ message: "internal server error. Something goes wrong" });
     }
-
 };
+
+
+async function delRefreshToken(req, res) {
+
+  try {
+
+    const refreshToken = 'buy-buy';
+
+    res.set("x-access-token", "buy-buy");    
+
+    res.cookie("refresh", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 60 * 1000,
+    });
+
+    res.status(201).json({
+      message: "Logout tokens successfully sended",
+      refresh: refreshToken,
+    });
+
+    console.log("usersController, delRefreshToken, res =>", res);
+    
+
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "internal server error. Something goes wrong" });
+  }
+}
 
 
 module.exports = {
@@ -133,5 +164,6 @@ module.exports = {
     registerUser,
     loginUser,
     getNewAccessToken,
+    delRefreshToken,
 
 };

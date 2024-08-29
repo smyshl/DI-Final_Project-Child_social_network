@@ -1,30 +1,31 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 import Post from "./Post.jsx";
-import Header from "./Header.jsx";
+import AddUpdatePost from "./AddUpdatePost.jsx";
 import { AuthContext } from "../auth/AuthProvider.jsx";
+import LoginRegister from "./LoginRegister.jsx"
+import ModalWindow from "./ModalWindow.jsx";
 
 
 function Feed() {
 
-    const { accessToken, logout, login } = useContext(AuthContext);
+    const { accessToken, logout, login, loggedIn } = useContext(AuthContext);
 
     // console.log("Feed component Authcontext =>", AuthContext);
 
     const [ allPosts, setAllPosts] = useState([]);
     const [ isAuthorized, setAuthorized ] = useState(Boolean(accessToken))
-    const [ userName, setUserName ] = useState("anonimous Hamster")
+    const [ loginIsOpen, setLoginIsOpen ] = useState(false);
+    const [ addPostIsOpen, setAddPostIsOpen ] = useState(false);
 
     const navigate = useNavigate();
 
-    // console.log("Feed component isAuthorized =>", isAuthorized);
-
+    // console.log("Feed component userName =>", userName);
     // console.log("Feed Component, user, accessToken =>", accessToken);
     
-
-
     const getAllPosts = async() => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/post/all`, {
@@ -58,7 +59,7 @@ function Feed() {
 
             if (response.data.message === "New access token succesfully created"){
                 login(response.data.user, response.headers['x-access-token']);
-                setAuthorized(!isAuthorized);
+                setAuthorized(true);
             }
 
             if (response.status != 201) throw new Error ('Something wrong with response from server')
@@ -67,46 +68,69 @@ function Feed() {
             console.log("Feed component getNewAccessToken catchError:", error.response.data.message);
             if (error.response?.data?.message === "No refresh token found") {
                 logout();
-                alert('Please log in');
+                // alert('Please log in');
+                // setLoginIsOpen(true);
                 navigate('/');
             }
         }
     }
 
+    const onCloseAddPost = () => {
+        setAddPostIsOpen(false);
+    }
+
+    // useEffect(() => {
+    //     console.log("Feed component useEffect LoggedIn =>", loggedIn);
+    //     if (loggedIn) {
+    //         setLoginIsOpen(false)}
+    //         setAuthorized(true);
+    // }, [loggedIn])
+
 
     useEffect(() => {
 
-        console.log("Feed component useEffect isAuthorized =>", isAuthorized);
+        if (loggedIn) {
+            setLoginIsOpen(false)}
+            setAuthorized(true);
+
+        console.log("Feed component useEffect LoggedIn 1=>", loggedIn);
+        console.log("Feed component useEffect isAuthorized 2=>", isAuthorized);
 
         if (isAuthorized) {
-
             const user = JSON.parse(localStorage.getItem("user"));
-            console.log("Feed component, useEffect =>", user);
+            console.log("Feed component, useEffect, user =>", user);
             
-            if (user?.first_name) setUserName(user.first_name);
-            
+            if (true) {
             getAllPosts()
             .then(result => setAllPosts(result))
             // .then(res => console.log("Feed component, useEffect =>", res))
-            .catch(error => console.log(error));  
+            .catch(error => console.log(error))
+            };  
         } else getNewAccessToken();
 
-    }, [isAuthorized])
-
-
-
+    }, [isAuthorized, loggedIn, addPostIsOpen])
 
 
 
     return (
       <>
+        <div>
+          <Button onClick={() => setAddPostIsOpen(!addPostIsOpen)}>
+            Add post
+          </Button>
+        </div>
 
-        {/* <header>
-          <Header />
-        </header> */}
 
-        <h2>Hi, {userName}</h2>
-        <div>{accessToken}</div>
+        <ModalWindow isOpen={addPostIsOpen} onClose={onCloseAddPost}>
+            <AddUpdatePost action={"Add new post"}/>
+        </ModalWindow>
+
+
+        <ModalWindow isOpen={loginIsOpen} >
+            <LoginRegister action={'Login'}/>
+        </ModalWindow>
+
+
         {allPosts?.map((post, index) => (
           <div key={index}>
             <Post
