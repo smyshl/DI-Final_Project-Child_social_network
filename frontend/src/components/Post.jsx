@@ -1,17 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Card, CardHeader, IconButton, CardMedia, CardContent, Typography, Box } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import ImageModal from "./ImageModal.jsx";
+import VertIconMenu from "./VertIconMenu.jsx";
+import { AuthContext } from "../auth/AuthProvider.jsx";
 
 
 function Post({props}) {
 
     const [ selectedImage, setSelectedImage ] = useState(null);
     const [ imageList, setImageList ] = useState(null);
-    const [ imageSize, setImageSize ] = useState({})
+    const [ imageSize, setImageSize ] = useState({});
 
+    const { user } = useContext(AuthContext);
+
+    // console.log("Post component, post.author =>", props.author);
     // console.log("Post component, post.id =>", props.postId);
+
+    let action;
+
+    if (user.user_id && props.author && user.user_id === props.author) {
+      action = <VertIconMenu post_id={props.postId} />;
+    } else action = null;
 
     const onClickImageHandle = (e) => {
         // console.log("Post component onClickImageHandle urlToOpen", e.target.src);    
@@ -22,14 +33,13 @@ function Post({props}) {
           setImageSize({height: window.innerHeight * 0.7, width: 'auto'});
           // setImageSize({width: window.innerWidth * 0.65, height: 'auto'})
         } else {
-
           setImageSize({width: window.innerWidth * 0.7, height: 'auto'})
         }
 
-        console.log("Post component selected image width =>", e.target.naturalWidth);
-        console.log("Post component selected image height =>", e.target.naturalHeight);
-        console.log("Post component current viewport width =>", window.innerWidth);
-        console.log("Post component current viewport height =>", window.innerHeight);
+        // console.log("Post component selected image width =>", e.target.naturalWidth);
+        // console.log("Post component selected image height =>", e.target.naturalHeight);
+        // console.log("Post component current viewport width =>", window.innerWidth);
+        // console.log("Post component current viewport height =>", window.innerHeight);
     }
 
     const closeModal = () => {
@@ -79,11 +89,8 @@ function Post({props}) {
 
         <Card sx={{ maxWidth: '80vw' }} elevation={7}>
           <CardHeader
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
+            action={ <VertIconMenu post_id={props.postId} /> }
+            // action={action}
             title={props.postTitle}
             // subheader="September 14, 2016"
           />

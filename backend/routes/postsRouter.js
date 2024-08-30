@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/add', verifyToken, upload.array('files'), postsController.addPost);
 router.get('/all', verifyToken, postsController.getAllPosts);
+router.delete('/delete/:id', postsController.deletePost);
 
 
 module.exports = router;

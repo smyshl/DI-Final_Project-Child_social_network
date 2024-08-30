@@ -34,20 +34,38 @@ async function getAllPosts() {
         .leftJoin('images_videos', 'posts.id', 'images_videos.post_id')
         .groupBy('posts.id')
         .orderBy('posts.id', 'desc')
-        .limit(10);
+        // .limit(10);
 
         // console.log("postsModel getAllPosts =>", allPosts);
 
         return allPosts;
     } catch (error) {
         console.log(error);
-        
     }
-
 }
+
+
+async function deletePost(post_id) {
+    const trx = await db.transaction();
+
+    try {
+
+        // console.log("addPost, trying to add a post");    
+        const result = await trx('posts').del().where({id: post_id}, ['id', 'title']);
+        
+        // console.log("addPost, add post =>", post);
+        await trx.commit();
+        return result;
+    } catch (error) {
+        await trx.rollback();
+        console.log(error);
+        throw error;
+    }
+};
 
 
 module.exports = {
     addPost,
     getAllPosts,
+    deletePost,
 }

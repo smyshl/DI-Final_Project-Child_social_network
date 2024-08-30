@@ -19,13 +19,13 @@ export function AuthProvider ({ children }) {
         localStorage.setItem("user", JSON.stringify(userData));
         setLoggedIn(true)
 
-        console.log("AuthProvider component, login, given: userdata, token =>", userData, accessToken);
-        console.log("AuthProvider component, login, setted: userdata, accesstoken =>", user, accessToken);
+        // console.log("AuthProvider component, login, given: userdata, token =>", userData, accessToken);
+        // console.log("AuthProvider component, login, setted: userdata, accesstoken =>", user, accessToken);
     
     };
     
     const logout = async () => {
-        console.log("AuthProvider component, logout =>");
+        // console.log("AuthProvider component, logout =>");
         
         setUser(null);
         setAccessToken(null);
@@ -48,7 +48,7 @@ export function AuthProvider ({ children }) {
     };
 
     useEffect(() => {
-        console.log("AuthProvider component, useEffect, accesstoken changed =>", user, accessToken);
+        // console.log("AuthProvider component, useEffect, accesstoken changed =>", user, accessToken);
     }, [accessToken])
     
 

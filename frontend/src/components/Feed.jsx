@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
@@ -9,6 +9,9 @@ import { AuthContext } from "../auth/AuthProvider.jsx";
 import LoginRegister from "./LoginRegister.jsx"
 import ModalWindow from "./ModalWindow.jsx";
 import Header from "./Header.jsx";
+
+
+export const FeedContext = createContext();
 
 
 function Feed() {
@@ -21,6 +24,7 @@ function Feed() {
     const [ isAuthorized, setAuthorized ] = useState(Boolean(accessToken))
     const [ loginIsOpen, setLoginIsOpen ] = useState(false);
     const [ addPostIsOpen, setAddPostIsOpen ] = useState(false);
+    const [ refreshFeed, setRefreshFeed ] = useState(false);
 
     const navigate = useNavigate();
 
@@ -55,8 +59,8 @@ function Feed() {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/getnewaccesstoken`, {
                 withCredentials: true
             });
-            console.log("Feed component getNewAccessToken, response =>", response.headers['x-access-token']);
-            console.log("Feed component getNewAccessToken, response =>", response.data.user);
+            // console.log("Feed component getNewAccessToken, response =>", response.headers['x-access-token']);
+            // console.log("Feed component getNewAccessToken, response =>", response.data.user);
 
             if (response.data.message === "New access token succesfully created"){
                 login(response.data.user, response.headers['x-access-token']);
@@ -92,11 +96,13 @@ function Feed() {
     // }, [loggedIn])
 
 
+
+
     useEffect(() => {
 
         if (loggedIn) {
-            setLoginIsOpen(false)}
-            setAuthorized(true);
+            setLoginIsOpen(false)
+            setAuthorized(true)};
 
         console.log("Feed component useEffect LoggedIn 1=>", loggedIn);
         console.log("Feed component useEffect isAuthorized 2=>", isAuthorized);
@@ -106,7 +112,7 @@ function Feed() {
             console.log("Feed component, useEffect, user =>", user);
             
             if (true) {
-                console.log("Feed component useEffect/isAuthorized, loggedIn => getting all posts");
+                // console.log("Feed component useEffect/isAuthorized, loggedIn => getting all posts");
                 getAllPosts()
                 .then(result => setAllPosts([...result]))
                 // .then(res => console.log("Feed component, useEffect =>", res))
@@ -114,11 +120,11 @@ function Feed() {
             };  
         } else getNewAccessToken();
 
-    }, [isAuthorized, loggedIn])
+    }, [isAuthorized, loggedIn, refreshFeed])
 
 
     useEffect(() => {
-        console.log("Feed component useEffect/addPostIsOpen => getting new access token and all posts, addPostIsOpen =>", addPostIsOpen);
+        // console.log("Feed component useEffect/addPostIsOpen => getting new access token and all posts, addPostIsOpen =>", addPostIsOpen);
         
        getNewAccessToken()
          .then((response) => {
@@ -131,7 +137,7 @@ function Feed() {
          .then(() => {
            if (!addPostIsOpen) {
              console.log(
-               "Feed component useEffect/addPostIsOpen => trying to get all posts =>"
+              //  "Feed component useEffect/addPostIsOpen => trying to get all posts =>"
              );
              getAllPosts()
              .then(result => setAllPosts([...result]))
@@ -146,9 +152,11 @@ function Feed() {
 
     return (
       <>
-
         <header>
-          <Header setAddPostIsOpen={setAddPostIsOpen} addPostIsOpen={addPostIsOpen} />
+          <Header
+            setAddPostIsOpen={setAddPostIsOpen}
+            addPostIsOpen={addPostIsOpen}
+          />
         </header>
 
         {/* <div>
@@ -157,31 +165,34 @@ function Feed() {
           </Button>
         </div> */}
 
-
         <ModalWindow isOpen={addPostIsOpen} onClose={onCloseAddPost}>
-            <AddUpdatePost action={"Add new post"}/>
+          <AddUpdatePost action={"Add new post"} />
         </ModalWindow>
 
-
-        <ModalWindow isOpen={loginIsOpen} >
-            <LoginRegister action={'Login'}/>
+        <ModalWindow isOpen={loginIsOpen}>
+          <LoginRegister action={"Login"} />
         </ModalWindow>
 
-        <div className="feedMainWrapper">
-        {allPosts?.map((post, index) => (
-          <div key={index}>
-            <Post
-              props={{
-                postTitle: post.title,
-                postText: post.text_content,
-                signedUrls: post.coalesce,
-                postId: post.id,
-              }}
-            />
-            <br />
+        <FeedContext.Provider value={{ refreshFeed, setRefreshFeed }}>
+          <div className="feedMainWrapper">
+            {allPosts?.map((post, index) => (
+              <div key={index}>
+                <Post
+                  props={{
+                    postTitle: post.title,
+                    postText: post.text_content,
+                    signedUrls: post.coalesce,
+                    postId: post.id,
+                    createdAt: post.created_at,
+                    lastUpdatedAt: post.last_updated_at,
+                    author: post.author,
+                  }}
+                />
+                <br />
+              </div>
+            ))}
           </div>
-        ))}
-        </div>
+        </FeedContext.Provider>
       </>
     );
 }

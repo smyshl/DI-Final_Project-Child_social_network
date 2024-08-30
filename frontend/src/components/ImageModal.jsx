@@ -12,22 +12,22 @@ function ImageModal({ signedUrl, onClose, imageList, imageSize, setSelectedImage
     const [ imageDimensions, setImageDimensions ] = useState({});
     const [ modalContentSliderHeight, setModalContentSliderHeight ] = useState('15vh')
 
-    console.log("ImageModal component, shownImage =>", { signedUrl, onClose, imageList });
-    console.log("ImageModal component, shownImage =>", shownImage);
+    // console.log("ImageModal component, shownImage =>", { signedUrl, onClose, imageList });
+    // console.log("ImageModal component, shownImage =>", shownImage);
 
     // console.log("ImageModal. onCloseClickHandle =>", onClose);
 
 useEffect(() => {
   setShownImage(signedUrl);
   setImageDimensions({ ...imageSize });
-  console.log("ImageModal component, useEffect, shownImage =>", shownImage);
+  // console.log("ImageModal component, useEffect, shownImage =>", shownImage);
 
   if (imageList && imageList.length === 1) {
     setModalContentSliderHeight("0");
   } else {
     setModalContentSliderHeight("15vh");
   }
-  console.log("ImageModal component useEffect modalContentSliderHeight =>", modalContentSliderHeight);
+  // console.log("ImageModal component useEffect modalContentSliderHeight =>", modalContentSliderHeight);
   
 }, [signedUrl]);
 

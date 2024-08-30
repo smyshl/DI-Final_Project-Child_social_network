@@ -72,8 +72,31 @@ async function getAllPosts(req, res) {
 };
 
 
+async function deletePost(req, res) {
+
+    console.log("postsController, deletePost posts.id =>", req.params.id);
+    
+    try {
+        const result = await postsModel.deletePost(req.params.id);
+
+        console.log("postsController, deletePost result =>", result);
+
+        res.status(201).json({
+            message: "Post successfully deleted",
+            deleted: result,
+
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error });            
+    }
+};
+
+
+
 
 module.exports = {
     addPost,
     getAllPosts,
+    deletePost,
 }
