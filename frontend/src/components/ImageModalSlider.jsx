@@ -12,6 +12,7 @@ function ImageModalSlider({imageList, setSelectedImage}) {
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
+    arrows: false,
     // responsive: [
     //   {
     //     breakpoint: 1024,
@@ -44,11 +45,11 @@ function ImageModalSlider({imageList, setSelectedImage}) {
       <Slider {...settings}>
         
         {imageList?.map((url, index) => (
-          <div key={index}>
+          <div key={index} style={{ padding: "0 5px" }}>
               <img
                 // key={index}
                 src={url}
-                style={{ maxWidth: "10vw", maxHeight: '10vh', objectFit: 'cover', cursor: 'pointer'}}
+                style={{ height: '10vh', objectFit: 'cover', cursor: 'pointer', padding: "0 5px"}}
                 onClick={(e) => setSelectedImage(e.target.src)}
               />
           </div>    
