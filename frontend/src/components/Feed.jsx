@@ -108,7 +108,7 @@ function Feed() {
             if (true) {
                 console.log("Feed component useEffect/isAuthorized, loggedIn => getting all posts");
                 getAllPosts()
-                .then(result => setAllPosts(result))
+                .then(result => setAllPosts([...result]))
                 // .then(res => console.log("Feed component, useEffect =>", res))
                 .catch(error => console.log(error))
             };  
@@ -134,7 +134,7 @@ function Feed() {
                "Feed component useEffect/addPostIsOpen => trying to get all posts =>"
              );
              getAllPosts()
-             .then(result => setAllPosts(result))
+             .then(result => setAllPosts([...result]))
              .then(() => console.log("Feed component useEffect/addPostIsOpen => all posts successfully received =>"))
              .catch(error => console.log(error))
            }

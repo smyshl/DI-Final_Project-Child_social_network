@@ -8,16 +8,33 @@ import ImageModal from "./ImageModal.jsx";
 function Post({props}) {
 
     const [ selectedImage, setSelectedImage ] = useState(null);
+    const [ imageList, setImageList ] = useState(null);
+    const [ imageSize, setImageSize ] = useState({})
 
     // console.log("Post component, post.id =>", props.postId);
 
     const onClickImageHandle = (e) => {
         // console.log("Post component onClickImageHandle urlToOpen", e.target.src);    
         setSelectedImage(e.target.src);
+        setImageList(props.signedUrls);
+
+        if (window.innerWidth >= window.innerHeight) {
+          setImageSize({height: window.innerHeight * 0.7, width: 'auto'});
+          // setImageSize({width: window.innerWidth * 0.65, height: 'auto'})
+        } else {
+
+          setImageSize({width: window.innerWidth * 0.7, height: 'auto'})
+        }
+
+        console.log("Post component selected image width =>", e.target.naturalWidth);
+        console.log("Post component selected image height =>", e.target.naturalHeight);
+        console.log("Post component current viewport width =>", window.innerWidth);
+        console.log("Post component current viewport height =>", window.innerHeight);
     }
 
     const closeModal = () => {
         setSelectedImage(null);
+        setImageList(null);
     }
 
     // console.log("Post component, props =>", props);
@@ -82,7 +99,7 @@ function Post({props}) {
                 key={index}
                 data-src={url}
                 ref={(el) => (imgRefs.current[index] = el)}
-                style={{ width: "20vw", margin: "1vw", objectFit: 'cover'}}
+                style={{ width: "20vw", margin: "1vw", objectFit: 'cover', cursor: 'pointer'}}
                 onClick={(e) => onClickImageHandle(e)}
               />
             ))}
@@ -154,7 +171,12 @@ function Post({props}) {
 
         {/* <div>Text - {props.postText}</div> */}
 
-        <ImageModal signedUrl={selectedImage} onClose={closeModal} />
+       <ImageModal 
+        signedUrl={selectedImage} 
+        onClose={closeModal} 
+        imageList={imageList} 
+        imageSize={imageSize} 
+        setSelectedImage={setSelectedImage}/>
       </>
     );
 };
