@@ -34,7 +34,7 @@ function Feed() {
                     'x-access-token': accessToken,
                 }
             })
-            console.log("Feed component getAllPosts, response status =>", response.status);
+            // console.log("Feed component getAllPosts, response status =>", response.status);
             console.log("Feed component, getAllPosts =>", response.data.allPosts);
             // console.log("Feed component, getAllPosts =>", response);
 
@@ -65,6 +65,8 @@ function Feed() {
 
             if (response.status != 201) throw new Error ('Something wrong with response from server')
 
+            return response;
+
         } catch (error) {
             console.log("Feed component getNewAccessToken catchError:", error.response.data.message);
             if (error.response?.data?.message === "No refresh token found") {
@@ -78,6 +80,8 @@ function Feed() {
 
     const onCloseAddPost = () => {
         setAddPostIsOpen(false);
+        // console.log("Feed component onCloseAddPost LoggedIn =>", loggedIn);
+        // console.log("Feed component onCloseAddPost isAuthorized =>", isAuthorized);        
     }
 
     // useEffect(() => {
@@ -102,14 +106,41 @@ function Feed() {
             console.log("Feed component, useEffect, user =>", user);
             
             if (true) {
-            getAllPosts()
-            .then(result => setAllPosts(result))
-            // .then(res => console.log("Feed component, useEffect =>", res))
-            .catch(error => console.log(error))
+                console.log("Feed component useEffect/isAuthorized, loggedIn => getting all posts");
+                getAllPosts()
+                .then(result => setAllPosts(result))
+                // .then(res => console.log("Feed component, useEffect =>", res))
+                .catch(error => console.log(error))
             };  
         } else getNewAccessToken();
 
-    }, [isAuthorized, loggedIn, addPostIsOpen])
+    }, [isAuthorized, loggedIn])
+
+
+    useEffect(() => {
+        console.log("Feed component useEffect/addPostIsOpen => getting new access token and all posts, addPostIsOpen =>", addPostIsOpen);
+        
+       getNewAccessToken()
+         .then((response) => {
+           console.log(
+             "Feed component useEffect/addPostIsOpen => new access token received =>",
+             response.headers["x-access-token"]
+           );
+           return;
+         })
+         .then(() => {
+           if (!addPostIsOpen) {
+             console.log(
+               "Feed component useEffect/addPostIsOpen => trying to get all posts =>"
+             );
+             getAllPosts()
+             .then(result => setAllPosts(result))
+             .then(() => console.log("Feed component useEffect/addPostIsOpen => all posts successfully received =>"))
+             .catch(error => console.log(error))
+           }
+         })
+         .catch((err) => console.log(err));
+    }, [addPostIsOpen])
 
 
 
@@ -136,7 +167,7 @@ function Feed() {
             <LoginRegister action={'Login'}/>
         </ModalWindow>
 
-        <div id="feedMainWrapper">
+        <div className="feedMainWrapper">
         {allPosts?.map((post, index) => (
           <div key={index}>
             <Post

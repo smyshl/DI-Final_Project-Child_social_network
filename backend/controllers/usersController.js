@@ -144,7 +144,6 @@ async function delRefreshToken(req, res) {
 
     res.status(201).json({
       message: "Logout tokens successfully sended",
-      refresh: refreshToken,
     });
 
     // console.log("usersController, delRefreshToken, res =>", res);

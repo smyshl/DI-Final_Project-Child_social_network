@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
@@ -19,7 +19,8 @@ export function AuthProvider ({ children }) {
         localStorage.setItem("user", JSON.stringify(userData));
         setLoggedIn(true)
 
-        console.log("AuthProvider component, login, userdata, token =>", userData, token);
+        console.log("AuthProvider component, login, given: userdata, token =>", userData, accessToken);
+        console.log("AuthProvider component, login, setted: userdata, accesstoken =>", user, accessToken);
     
     };
     
@@ -45,6 +46,11 @@ export function AuthProvider ({ children }) {
         // console.log("AuthProvider component, del tokens response =>", response);
         
     };
+
+    useEffect(() => {
+        console.log("AuthProvider component, useEffect, accesstoken changed =>", user, accessToken);
+    }, [accessToken])
+    
 
     return (
         <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, login, logout, loggedIn }} >

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function AddFiles({setPostFileList}) {
+function AddFiles({setPostFileList, successUpload}) {
 
     const [ selectedFiles, setSelectedFiles ] = useState([]);
 
@@ -35,9 +35,17 @@ function AddFiles({setPostFileList}) {
         
     };
 
+
+    useEffect(() => {
+        setSelectedFiles([]);
+        // setPostFileList([])
+        document.getElementById('selectImagesForm').reset();
+    }, [successUpload]);
+
+
     return (
         <>
-            <form>
+            <form id='selectImagesForm'>
                 <label htmlFor="file-upload">Select images:</label>
                 <input type="file" id="file-upload" accept="image/*, video/*" multiple onChange={selectHandle}/>
                 <div id="preview"></div>

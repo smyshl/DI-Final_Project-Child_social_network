@@ -69,7 +69,9 @@ function AddUpdatePost({action}) {
             if (res.status === 201){
                 setSuccessUpload(true)
                 // e.target.reset();
-                console.log("AddUpdateComponent buttonClickHandle uploadPost response =>", e.target)
+                // console.log("AddUpdateComponent buttonClickHandle uploadPost response =>", e.target)
+                document.getElementById('postTitle').value = '';
+                document.getElementById('postText').value = '';
             }
         })        
         .then(res => setSignedUrls(res?.data.signedUrls))
@@ -82,11 +84,11 @@ function AddUpdatePost({action}) {
         <>
         <h2>{action}</h2>
         {successUpload && <Alert severity="success">Post successfully uploaded</Alert>}
-        <input id="postTitle" placeholder="Title" onChange={(e) => setPostTitle(e.target.value)} ></input> <br /> <br />
+        <input id="postTitle" placeholder="Title" onChange={(e) => {setPostTitle(e.target.value); setSuccessUpload(false)}} ></input> <br /> <br />
         
-        <textarea id="postText" placeholder="Text" cols={40} rows={7} onChange={(e) => setPostText(e.target.value)} ></textarea>       
+        <textarea id="postText" placeholder="Text" cols={40} rows={7} onChange={(e) => {setPostText(e.target.value); setSuccessUpload(false)}} ></textarea>       
         <br /> <br /> 
-        <AddFiles setPostFileList={setPostFileList} />
+        <AddFiles setPostFileList={setPostFileList} successUpload={successUpload}/>
 
         <button onClick={buttonClickHandle}>Add post</button>
         <br /> <br /> 

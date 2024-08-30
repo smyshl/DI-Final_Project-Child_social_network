@@ -16,13 +16,13 @@ const Header = ({ setAddPostIsOpen, addPostIsOpen }) => {
 
 
   return (
-    <Stack spacing={2} direction={"row"} sx={{
+    <Stack spacing={2} direction={"row"} elevation={10} sx={{
       position: 'fixed', 
       top: 0,
       height: '4rem',
-      width: '65vw',
+      width: '70vw',
       alignItems: 'center',
-      // zIndex: 1000,
+      zIndex: 1000,
       backgroundColor: 'white',
       justifyContent: 'flex-end',
       }}>
