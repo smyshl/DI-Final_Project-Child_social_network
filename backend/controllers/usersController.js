@@ -1,6 +1,7 @@
 const usersModel = require('../models/usersModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 
@@ -128,7 +129,6 @@ async function getNewAccessToken(req, res) {
 
 
 async function delRefreshToken(req, res) {
-
   try {
 
     const refreshToken = 'buy-buy';
@@ -158,11 +158,54 @@ async function delRefreshToken(req, res) {
 }
 
 
+async function getAllUsers(req, res) {
+
+  try {
+      
+      const allUsers = await usersModel.getAllUsers();
+
+      res.status(201).json({
+          message: "All users successfully received",
+          allUsers,
+
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error });            
+  }
+};
+
+
+
+async function getNewUserInvitationLink(req, res) {
+
+  try {
+
+    console.log("getNewUserInvitationLink, uuidv4 =>", uuidv4());
+
+    const invitation = "https://di-final-project-child-social-network-lz8d.onrender.com/invite/" + uuidv4();
+      
+      // const allUsers = await usersModel.getAllUsers();
+
+      res.status(201).json({
+          message: "Invitation link for the new user successfully created:",
+          invitation,
+
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error });            
+  }
+};
+
+
 module.exports = {
 
     registerUser,
     loginUser,
     getNewAccessToken,
     delRefreshToken,
+    getAllUsers,
+    getNewUserInvitationLink,
 
 };

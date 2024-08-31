@@ -9,6 +9,7 @@ import { AuthContext } from "../auth/AuthProvider.jsx";
 import LoginRegister from "./LoginRegister.jsx"
 import ModalWindow from "./ModalWindow.jsx";
 import Header from "./Header.jsx";
+import UsersTable from "./UsersTable.jsx";
 
 
 export const FeedContext = createContext();
@@ -24,6 +25,7 @@ function Feed() {
     const [ isAuthorized, setAuthorized ] = useState(Boolean(accessToken))
     const [ loginIsOpen, setLoginIsOpen ] = useState(false);
     const [ addPostIsOpen, setAddPostIsOpen ] = useState(false);
+    const [ manageUsersIsOpen, setManageUsersIsOpen] = useState(false);
     const [ refreshFeed, setRefreshFeed ] = useState(false);
 
     const navigate = useNavigate();
@@ -84,16 +86,16 @@ function Feed() {
 
     const onCloseAddPost = () => {
         setAddPostIsOpen(false);
+        setRefreshFeed(!refreshFeed);
         // console.log("Feed component onCloseAddPost LoggedIn =>", loggedIn);
         // console.log("Feed component onCloseAddPost isAuthorized =>", isAuthorized);        
     }
 
-    // useEffect(() => {
-    //     console.log("Feed component useEffect LoggedIn =>", loggedIn);
-    //     if (loggedIn) {
-    //         setLoginIsOpen(false)}
-    //         setAuthorized(true);
-    // }, [loggedIn])
+    const onCloseManageUsers = () => {
+      setManageUsersIsOpen(false);
+      // console.log("Feed component onCloseAddPost LoggedIn =>", loggedIn);
+      // console.log("Feed component onCloseAddPost isAuthorized =>", isAuthorized);        
+  }
 
 
 
@@ -152,6 +154,8 @@ function Feed() {
 
     return (
       <>
+      <FeedContext.Provider value={{ refreshFeed, setRefreshFeed, setManageUsersIsOpen }}>
+
         <header>
           <Header
             setAddPostIsOpen={setAddPostIsOpen}
@@ -159,11 +163,10 @@ function Feed() {
           />
         </header>
 
-        {/* <div>
-          <Button onClick={() => setAddPostIsOpen(!addPostIsOpen)}>
-            Add post
-          </Button>
-        </div> */}
+
+        <ModalWindow isOpen={manageUsersIsOpen} onClose={onCloseManageUsers}>
+          <UsersTable />
+        </ModalWindow>        
 
         <ModalWindow isOpen={addPostIsOpen} onClose={onCloseAddPost}>
           <AddUpdatePost action={"Add new post"} />
@@ -173,7 +176,6 @@ function Feed() {
           <LoginRegister action={"Login"} />
         </ModalWindow>
 
-        <FeedContext.Provider value={{ refreshFeed, setRefreshFeed }}>
           <div className="feedMainWrapper">
             {allPosts?.map((post, index) => (
               <div key={index}>

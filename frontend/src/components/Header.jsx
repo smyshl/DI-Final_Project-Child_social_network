@@ -27,25 +27,23 @@ const Header = ({ setAddPostIsOpen, addPostIsOpen }) => {
       justifyContent: 'flex-end',
       }}>
 
-      {/* <Button LinkComponent={Link} to='/register'>
-        View users
-      </Button> */}
-
+{ user && user.role === 'admin' &&
       <TextField
           // label="Size"
           id="standard-size-small"
           // defaultValue="Small"
           size="small"
           variant="standard"
-        />
+        />}
 
+{ user && user.role === 'admin' &&
         <div>
           <Button onClick={() => setAddPostIsOpen(!addPostIsOpen)} sx={{
             marginRight: '10vw',
           }}>
             Add post
           </Button>
-        </div>
+        </div>}
 
 
       {/* <Button LinkComponent={Link} to='/register' sx={{
@@ -55,8 +53,13 @@ const Header = ({ setAddPostIsOpen, addPostIsOpen }) => {
       </Button> */}
 
 
-          <DashBoardUser userName={userName} />
+          <DashBoardUser 
+          userName={userName}
+          userRole={user.role} />
+
+
           <Avatar src="/avatars/1.webp" />
+
     </Stack>
   );
 };

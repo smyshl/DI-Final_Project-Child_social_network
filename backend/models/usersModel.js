@@ -44,9 +44,22 @@ async function updateRefreshToken(id, refreshToken) {
 };
 
 
+async function getAllUsers() {
+  try {
+    const users = await db("users")
+      .select("id", "email", "role", "first_name", "last_name");
+    return users;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 module.exports = {
     createUser,
     getUserByEmail,
     updateRefreshToken,
+    getAllUsers,
 
 }

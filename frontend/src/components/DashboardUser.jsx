@@ -4,16 +4,22 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../auth/AuthProvider.jsx';
+import { FeedContext } from './Feed.jsx';
+import { getNewAccessToken } from '../utils/getNewAccessToken.js';
 
 
-export default function DashBoardUser({ userName }) {
+export default function DashBoardUser({ userName, userRole }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open = Boolean(anchorEl);
 
-  const { logout, user } = useContext(AuthContext);
+  const { logout, login, user } = useContext(AuthContext);
+  const { setManageUsersIsOpen } = useContext(FeedContext);
+
+  const navigate = useNavigate();
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +31,11 @@ export default function DashBoardUser({ userName }) {
   const handleMenuItemClick = (action) => {
     console.log("DashBoardUser component, handleMenuItemClick, action, logOut =>", action, logout, user);
     if (action === 'Logout') logout();
+    if (action === 'Manage accounts') {
+      getNewAccessToken(login, logout, navigate);
+      setManageUsersIsOpen(true);
+    };
+
     setAnchorEl(null);
   }
 
@@ -49,7 +60,12 @@ export default function DashBoardUser({ userName }) {
         }}
       >
         {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+        {
+          userRole === 'admin' &&
+          <MenuItem onClick={() => handleMenuItemClick('Manage accounts')}>Manage accounts</MenuItem>
+        }
+        
         <MenuItem onClick={() => handleMenuItemClick('Logout')}>Logout</MenuItem>
       </Menu>
     </div>

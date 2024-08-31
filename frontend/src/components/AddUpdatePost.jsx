@@ -1,7 +1,7 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { useState, useContext } from "react";
-import { Alert } from "@mui/material";
+import { Alert, TextField, Button } from "@mui/material";
 
 import AddFiles from "./AddFiles.jsx";
 import Post from "./Post.jsx";
@@ -33,7 +33,7 @@ function AddUpdatePost({action}) {
         formData.append('title', title);
         formData.append('text_content', text);
         formData.append('created_at', currentTimeStamp)
-        formData.append('author', currentUser?.id || 0)
+        formData.append('author', currentUser?.user_id || 0)
         for (let file of files){
             formData.append('files', file)        
         };
@@ -83,15 +83,22 @@ function AddUpdatePost({action}) {
     return (
         <>
         <h2>{action}</h2>
-        {successUpload && <Alert severity="success">Post successfully uploaded</Alert>}
+        {/* {successUpload && <Alert severity="success">Post successfully uploaded</Alert>} */}
         <input id="postTitle" placeholder="Title" onChange={(e) => {setPostTitle(e.target.value); setSuccessUpload(false)}} ></input> <br /> <br />
         
         <textarea id="postText" placeholder="Text" cols={40} rows={7} onChange={(e) => {setPostText(e.target.value); setSuccessUpload(false)}} ></textarea>       
         <br /> <br /> 
         <AddFiles setPostFileList={setPostFileList} successUpload={successUpload}/>
 
-        <button onClick={buttonClickHandle}>Add post</button>
-        <br /> <br /> 
+        {successUpload && <Alert severity="success">Post successfully uploaded</Alert>}
+
+        <Button variant='contained' onClick={buttonClickHandle} sx={{m: 1}}>
+            {action}
+          </Button>
+
+
+        {/* <button onClick={buttonClickHandle}>Add post</button>
+        <br /> <br />  */}
         {/* <h2>New post:</h2>
         <Post props={{postTitle, postText, signedUrls}} /> */}
         

@@ -20,7 +20,12 @@ function Post({props}) {
 
     let action;
 
+      console.log("Post component, post.author =>", props.author);
+      console.log("Post component, user.userId =>", user);
+
+
     if (user.user_id && props.author && user.user_id === props.author) {
+
       action = <VertIconMenu post_id={props.postId} />;
     } else action = null;
 
@@ -89,8 +94,8 @@ function Post({props}) {
 
         <Card sx={{ maxWidth: '80vw' }} elevation={7}>
           <CardHeader
-            action={ <VertIconMenu post_id={props.postId} /> }
-            // action={action}
+            // action={ <VertIconMenu post_id={props.postId} /> }
+            action={action}
             title={props.postTitle}
             // subheader="September 14, 2016"
           />

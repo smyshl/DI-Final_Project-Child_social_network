@@ -12,7 +12,7 @@ async function addPost(req, res) {
     const postInfo = { author, created_at, title, text_content };
 
     // console.log(media);
-    // console.log("addPost controller, files in post =>", req.files);
+    console.log("addPost controller, postInfo =>", postInfo);
     
 
     if (!title && !text_content && (!req.files || req.files.length === 0)) {

@@ -28,8 +28,8 @@
   /* Кнопка закрытия (крестик) */
   .close {
     position: absolute;
-    top: 10px;
-    right: 20px;
+    top: -5px;
+    right: 5px;
     color: #aaa;
     font-size: 28px;
     font-weight: bold;

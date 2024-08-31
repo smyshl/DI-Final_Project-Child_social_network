@@ -46,6 +46,14 @@ function HomePage() {
             <LoginRegister action={'Login'}/>
         </ModalWindow>
 
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '0.5rem'}}>
+        <div style={{marginRight: '0.5rem'}}>For demo use:</div>
+        <div style={{textAlign: 'left', marginLeft: '0.5rem'}}>
+        <div>Login: demo</div>
+        <div>Password: day</div>  
+        </div>
+        
+        </div>
       </>
     );
 };

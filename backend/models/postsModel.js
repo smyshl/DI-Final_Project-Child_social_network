@@ -6,7 +6,7 @@ async function addPost({ author, created_at, title, text_content}) {
 
     try {
 
-        // console.log("addPost, trying to add a post");    
+        console.log("addPost, trying to add a post", author);    
 
         const [ post ] = await trx('posts').insert({ author, created_at, title, text_content, last_updated_at: created_at}, ['id', 'title']);
         

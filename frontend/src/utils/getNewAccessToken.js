@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export async function getNewAccessToken (login, logout, navigate) {
-    // console.log("getNewAccessToken =>", "ХУЙ");
+    // console.log("getNewAccessToken =>");
     try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/getnewaccesstoken`, {
             withCredentials: true
