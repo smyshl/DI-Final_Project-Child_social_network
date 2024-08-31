@@ -70,9 +70,9 @@ function VertIconMenu({ post_id }) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleMenuItemClick('Edit')}>
+        {/* <MenuItem onClick={() => handleMenuItemClick('Edit')}>
             <EditIcon />
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={() => handleMenuItemClick('Delete')}>
             <DeleteForeverIcon />
         </MenuItem>

@@ -52,7 +52,11 @@ function HomePage() {
         <div>Login: demo</div>
         <div>Password: day</div>  
         </div>
-        
+        </div>
+
+        <div style={{marginTop: '20px', fontSize: '0.8rem'}}>
+        There may be delays in the website's operation because the demo servers often go to sleep.<br />
+        Please be patient with them.
         </div>
       </>
     );

@@ -20,8 +20,8 @@ function Post({props}) {
 
     let action;
 
-      console.log("Post component, post.author =>", props.author);
-      console.log("Post component, user.userId =>", user);
+      // console.log("Post component, post.author =>", props.author);
+      // console.log("Post component, user.userId =>", user);
 
 
     if (user.user_id && props.author && user.user_id === props.author) {

@@ -29,7 +29,7 @@ export default function DashBoardUser({ userName, userRole }) {
   };
 
   const handleMenuItemClick = (action) => {
-    console.log("DashBoardUser component, handleMenuItemClick, action, logOut =>", action, logout, user);
+    // console.log("DashBoardUser component, handleMenuItemClick, action, logOut =>", action, logout, user);
     if (action === 'Logout') logout();
     if (action === 'Manage accounts') {
       getNewAccessToken(login, logout, navigate);

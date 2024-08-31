@@ -51,13 +51,13 @@ async function loginUser(req, res) {
         const accessToken = jwt.sign(
             { user_id: user.id, first_name: user.first_name, role: user.role },
             ACCESS_TOKEN_SECRET,
-            { expiresIn: "60s" }
+            { expiresIn: "300s" }
         );
 
         const refreshToken = jwt.sign(
             { user_id: user.id, first_name: user.first_name, role: user.role },
             REFRESH_TOKEN_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "1 day" }
         );
 
         // set token in header
@@ -67,7 +67,7 @@ async function loginUser(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: 'None',
-            maxAge: 60 * 60 * 1000,
+            maxAge: 24 * 60 * 60 * 1000,
         });
 
         // console.log("usersController loginUser res =>", res);
@@ -109,7 +109,7 @@ async function getNewAccessToken(req, res) {
         const accessToken = jwt.sign(
           { user_id, first_name, role },
           ACCESS_TOKEN_SECRET,
-          { expiresIn: "60s" }
+          { expiresIn: "300s" }
         );
 
         res.set("x-access-token", accessToken);
