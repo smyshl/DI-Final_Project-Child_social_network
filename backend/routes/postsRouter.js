@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const postsController = require('../controllers/postsController.js');
+const images_videosModel = require('../models/images_videosModel.js');
 const { verifyToken } = require('../middlewares/verifyToken.js')
 
 const storage = multer.memoryStorage();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.post('/add', verifyToken, upload.array('files'), postsController.addPost);
 router.get('/all', verifyToken, postsController.getAllPosts);
 router.delete('/delete/:id', verifyToken, postsController.deletePost);
+
+router.get('/expiredurls', images_videosModel.getExpiredUrls);
 
 
 module.exports = router;

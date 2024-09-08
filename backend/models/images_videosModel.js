@@ -22,7 +22,31 @@ async function addImagesVideos({ post_id, original_filename, storage_filename, s
 };
 
 
+async function getExpiredUrls() {
+    const now = new Date();
+    const expirationDateCheck = new Date();
+
+    expirationDateCheck.setDate(now.getDate() + 1);
+
+    console.log("images_videosModel, getExpiredUrls, now, expirationDateCheck =>", now, expirationDateCheck);
+    
+
+    try {
+        const expiredUrls = await db("images_videos")
+          .select("storage_filename")
+          .where('url_expires_at', '<=', expirationDateCheck);
+
+        console.log("images_videosModel, getExpiredUrls, expiredUrls =>", expiredUrls.length, expiredUrls);
+        
+        return expiredUrls;
+      } catch (error) {
+        throw error;
+      }
+};
+
+
 module.exports = {
     addImagesVideos,
+    getExpiredUrls,
 
 }
