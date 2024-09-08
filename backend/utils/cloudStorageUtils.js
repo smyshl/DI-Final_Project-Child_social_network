@@ -13,7 +13,7 @@ async function generateSignedUrl(storage_filename) {
 
     try {
         const [ storage_url ] = await bucket.file(storage_filename).getSignedUrl(options);
-        console.log(`URL for the file ${storage_filename} created successfully, expires at`, url_expires_at); 
+        // console.log(`URL for the file ${storage_filename} created successfully, expires at`, url_expires_at); 
         const currentTimeStamp = new Date().toISOString();
         // console.log("URL created", currentTimeStamp);
            
@@ -37,7 +37,7 @@ async function uploadFileToGoogleCloudStorage(file, storage_filename) {
         blobStream.on('finish', async () => {
             try {
                 const currentTimeStamp = new Date().toISOString();
-                console.log(`File ${storage_filename} successfully uploaded`, currentTimeStamp);
+                // console.log(`File ${storage_filename} successfully uploaded`, currentTimeStamp);
                 const result = await generateSignedUrl(storage_filename);
                 resolve(result);
             } catch (error) {
@@ -73,10 +73,10 @@ async function getRefreshedUrls() {
             // console.log(index, storage_url, url_expires_at);
         }
 
-        if (filenamesToRefresh.length > 0) {
-            console.log("cloudStorageUtils, getRefreshedUrls, filenamesToRefresh =>", filenamesToRefresh.length)
-            console.log("cloudStorageUtils, getRefreshedUrls, filenamesToRefresh =>", filenamesToRefresh)
-        };
+        // if (filenamesToRefresh.length > 0) {
+        //     console.log("cloudStorageUtils, getRefreshedUrls, filenamesToRefresh =>", filenamesToRefresh.length)
+        //     console.log("cloudStorageUtils, getRefreshedUrls, filenamesToRefresh =>", filenamesToRefresh)
+        // };
         
         return filenamesToRefresh;
     } catch (error) {
@@ -86,11 +86,41 @@ async function getRefreshedUrls() {
 };
 
 
+async function updateSignedUrls() {
+    try {
+        
+        const refreshedUrls = await getRefreshedUrls();
+
+        if (refreshedUrls.length === 0) {
+            console.log("Nothing to update");
+            return;
+        }
+
+        // console.log("cloudStorageUtils, updateSignedUrls, refreshedUrls =>", refreshedUrls)
+
+        const urlsUpdated = await images_videosModel.updateRefreshedUrls(refreshedUrls);
+
+        if (!urlsUpdated) {
+            setTimeout(async() => {
+                await images_videosModel.updateRefreshedUrls(refreshedUrls)
+            }, 60 * 1000);
+        } else {
+            console.log("URLs successfully updated");
+            return;
+        }
+
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 
 
 module.exports = {
     generateSignedUrl,
     uploadFileToGoogleCloudStorage,
     getRefreshedUrls,
-
+    updateSignedUrls,
 }

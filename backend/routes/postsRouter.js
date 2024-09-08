@@ -15,7 +15,7 @@ router.post('/add', verifyToken, upload.array('files'), postsController.addPost)
 router.get('/all', verifyToken, postsController.getAllPosts);
 router.delete('/delete/:id', verifyToken, postsController.deletePost);
 
-router.get('/expiredurls', cloudStorageUtils.getRefreshedUrls);
+// router.get('/expiredurls', cloudStorageUtils.updateSignedUrls);
 
 
 module.exports = router;

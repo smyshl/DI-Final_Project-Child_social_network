@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { getBucketMetadata, configureBucketCors } = require('./config/cloudStorage.js')
+const cloudStorageUtils = require('./utils/cloudStorageUtils.js');
 
 const usersRouter = require('./routes/usersRouter.js');
 const postsRouter = require('./routes/postsRouter.js')
@@ -25,6 +26,11 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`run on ${PORT}`);
   });
+
+
+setInterval(async() => {
+  await cloudStorageUtils.updateSignedUrls();
+}, 24 * 60 * 60 * 1000);
 
 // const printer = () => {
 //   setInterval( () => console.log("printer =>"), 10 * 1000 );
