@@ -22,23 +22,25 @@ async function addImagesVideos({ post_id, original_filename, storage_filename, s
 };
 
 
-async function getExpiredUrls() {
+async function getUrlsToRefresh(offsetDate = 1) {
     const now = new Date();
     const expirationDateCheck = new Date();
 
-    expirationDateCheck.setDate(now.getDate() + 1);
+    console.log("images_videosModel, getfilenamesToRefresh, types of now.getDate(), offsetDate=>", typeof now.getDate(), typeof offsetDate);
 
-    console.log("images_videosModel, getExpiredUrls, now, expirationDateCheck =>", now, expirationDateCheck);
+    expirationDateCheck.setDate(now.getDate() + offsetDate);
+
+    console.log("images_videosModel, getUrlsToRefresh, now, expirationDateCheck =>", now, expirationDateCheck);
     
 
     try {
-        const expiredUrls = await db("images_videos")
-          .select("storage_filename")
+        const filenamesToRefresh = await db("images_videos")
+          .select("id", "storage_filename")
           .where('url_expires_at', '<=', expirationDateCheck);
 
-        console.log("images_videosModel, getExpiredUrls, expiredUrls =>", expiredUrls.length, expiredUrls);
+        // console.log("images_videosModel, getfilenamesToRefresh, filenamesToRefresh =>", filenamesToRefresh.length, filenamesToRefresh);
         
-        return expiredUrls;
+        return filenamesToRefresh;
       } catch (error) {
         throw error;
       }
@@ -47,6 +49,6 @@ async function getExpiredUrls() {
 
 module.exports = {
     addImagesVideos,
-    getExpiredUrls,
+    getUrlsToRefresh,
 
 }
