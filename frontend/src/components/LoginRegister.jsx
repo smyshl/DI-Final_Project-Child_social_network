@@ -101,9 +101,12 @@ const LoginRegister = ({action}) => {
               label='Enter password...'
               variant='outlined'
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if(e.key === 'Enter') loginRegister();
+              }}
             />
           </Box>
-          <Button variant='contained' onClick={loginRegister}>
+          <Button variant='contained' onClick={loginRegister} >
             {action}
           </Button>
           <div>{message}</div>
