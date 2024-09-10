@@ -5,7 +5,7 @@ const images_videosController = require('./images_videosController.js')
 
 async function addPost(req, res) {
 
-    console.log("postController, addPost, req =>", req);
+    // console.log("postController, addPost, req =>", req);
     
 
     const { author, created_at, title, text_content } = req.body;
