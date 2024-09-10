@@ -91,7 +91,7 @@ async function updateSignedUrls() {
         
         const refreshedUrls = await getRefreshedUrls();
 
-        if (refreshedUrls.length === 0) {
+        if (refreshedUrls && refreshedUrls.length === 0) {  // here is an error if the server could't establish connection with database
             console.log("Nothing to update");
             return;
         }
