@@ -28,6 +28,11 @@ app.listen(PORT, () => {
   });
 
 
+setTimeout(async() => {
+  await cloudStorageUtils.updateSignedUrls();
+}, 60 * 1000);
+
+
 setInterval(async() => {
   await cloudStorageUtils.updateSignedUrls();
 }, 24 * 60 * 60 * 1000);
