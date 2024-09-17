@@ -3,9 +3,24 @@ const invitationsModel = require('../models/invitationsModel.js')
 
 async function createInvitationLink(req, res) {
 
+    const role = req.params.role;
+    const created_by = req.user_id;
+    const creator_role = req.creator_role;
+
+
+    if (role != 'admin' && role != 'regular') {   
+        return res.status(404).json({ message: `Invitation link could be created only for admin or regular user`})
+    }
+
+    if (creator_role != 'admin') {   
+        return res.status(404).json({ message: `Invitation link could be created only by admin user`})
+    }
+
+    // console.log('invitationController, createInvitationLink, req =>', role);
+
     try {
 
-        const invitationLink = await invitationsModel.createInvitationLink({created_by: 23, role: 'regular'});
+        const invitationLink = await invitationsModel.createInvitationLink({created_by, role});
 
         res.status(201).json({
             message: "Invitation link successfully created",
@@ -19,7 +34,7 @@ async function createInvitationLink(req, res) {
 };
 
 
-async function getInvitationLink(req, res) {
+async function checkInvitationLink(req, res) {
 
     const invitationLink = req.params.invitation;
 
@@ -46,13 +61,14 @@ async function getInvitationLink(req, res) {
             return res.status(404).json({ message: `Invitation link '${invitationLink}' has already expired`})
         }
 
-        if (invitation.creater_role != 'admin') {
+        // if role of user who created invitation link has changed, such link couldn't be used
+        if (invitation.creator_role != 'admin') {   
             return res.status(404).json({ message: `Invitation link '${invitationLink}' couldn't be used`})
         }
 
 
         res.status(200).json({
-            message: "Invitation link",
+            message: "Invitation link is valid",
             invitation,
 
         });
@@ -63,8 +79,28 @@ async function getInvitationLink(req, res) {
 };
 
 
+async function setInvitationLinkToUsed(req, res) {
+
+    const invitationLink = req.params.invitation;
+
+    try {
+        const used_invitation = await invitationsModel.setInvitationLinkToUsed(invitationLink);
+
+        res.status(201).json({
+            message: "Invitation link successfully set to used",
+            used_invitation,
+
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error });            
+    }
+}
+
+
 module.exports = {
     createInvitationLink,
-    getInvitationLink,
+    checkInvitationLink,
+    setInvitationLinkToUsed,
 
 }

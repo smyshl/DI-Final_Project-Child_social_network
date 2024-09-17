@@ -10,12 +10,14 @@ const router = express.Router();
 router.post('/register', usersController.registerUser);
 router.post('/login', usersController.loginUser);
 router.get('/getnewaccesstoken', usersController.getNewAccessToken);
-router.get('/logout', usersController.delRefreshToken);
-router.get('/all', usersController.getAllUsers);
+router.get('/logout', verifyToken, usersController.delRefreshToken);
+router.get('/all', verifyToken, usersController.getAllUsers);
 router.get('/invite', usersController.getNewUserInvitationLink);
 
-router.get('/invite/createlink', invitationsController.createInvitationLink);
-router.get('/register/:invitation', invitationsController.getInvitationLink);
+router.get('/invite/createlink/:role', verifyToken, invitationsController.createInvitationLink);
+router.get('/register/:invitation', invitationsController.checkInvitationLink);
+
+router.get('/invite/uselink/:invitation', invitationsController.setInvitationLinkToUsed); // only for testing
 
 
 module.exports = router;
