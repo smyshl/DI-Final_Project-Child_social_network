@@ -15,6 +15,7 @@ router.get('/all', usersController.getAllUsers);
 router.get('/invite', usersController.getNewUserInvitationLink);
 
 router.get('/invite/createlink', invitationsController.createInvitationLink);
+router.get('/register/:invitation', invitationsController.getInvitationLink);
 
 
 module.exports = router;

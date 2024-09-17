@@ -4,10 +4,11 @@ const bcrypt = require('bcrypt');
 
 async function createUser({ password, email }) {
     const trx = await db.transaction();
+    const created_at = new Date().toISOString();
 
     try {
         const hashPassword = await bcrypt.hash(password + '', 10);
-        const [ user ] = await trx('users').insert({ email, password: hashPassword}, ['id', 'email', 'role']);
+        const [ user ] = await trx('users').insert({ email, password: hashPassword, created_at}, ['id', 'email', 'role', 'created_at']);
 
         await trx.commit();
         return user;
