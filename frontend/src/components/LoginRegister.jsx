@@ -60,12 +60,12 @@ const LoginRegister = ({action}) => {
                     response.data.user,
                     response.headers["x-access-token"]
                   );
-                  localStorage.setItem(
-                    "user",
-                    JSON.stringify(
-                      response.data.user
-                    )
-                  );
+                  // localStorage.setItem(
+                  //   "user",
+                  //   JSON.stringify(
+                  //     response.data.user
+                  //   )
+                  // );
                   navigate("/feed");
                 }
 

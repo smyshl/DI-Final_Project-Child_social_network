@@ -22,11 +22,13 @@ function HomePage() {
 
     return (
       <>
-        <h1 style={{color: '#1e79d3'}}>Welcome to the Hamsters network</h1>
+      <div style={{color: '#1e79d3', marginBottom: '2.5rem'}}>
+        <h1 style={{ marginBottom: '0.2rem'}}>Welcome to the Hamsters network</h1>
+        A safe space for parents to share photos of their children with relatives</div>
 
         <img
           src={`${process.env.PUBLIC_URL}/hamsters_images/2.webp`}
-          style={{ width: "23rem" }}
+          style={{ width: "23rem", border: '1px solid #1e79d3', borderRadius: '3%'}}
         ></img>
 
         {/* <div>
@@ -57,6 +59,10 @@ function HomePage() {
         <div style={{marginTop: '20px', fontSize: '0.8rem'}}>
         There may be delays in the website's operation because the demo servers often go to sleep.<br />
         Please be patient with them.
+        </div>
+
+        <div style={{marginTop: '5px', fontSize: '0.8rem'}}>
+        Demo prototype, not all features are implemented. Have question - email me: <a href="mailto:">e.smyshl@gmail.com</a>
         </div>
       </>
     );

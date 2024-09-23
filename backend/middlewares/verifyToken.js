@@ -14,9 +14,12 @@ const verifyToken = (req, res, next) => {
     if (err)
       return res.status(403).json({ message: "Access denied. Access token expired", error: err.message });
 
-    const { userid, email } = decode;
-    req.userid = userid;
-    req.email = email;
+    const { user_id, role } = decode;
+    req.user_id = user_id;
+    req.creator_role = role;
+
+    // console.log("verifyToken middleware, userid =>", user_id, role);
+
     // req.userinfo = decode
 
     // console.log(req);

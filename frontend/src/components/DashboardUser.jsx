@@ -23,6 +23,7 @@ export default function DashBoardUser({ userName, userRole }) {
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
+    getNewAccessToken(login, logout, navigate);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -32,7 +33,7 @@ export default function DashBoardUser({ userName, userRole }) {
     // console.log("DashBoardUser component, handleMenuItemClick, action, logOut =>", action, logout, user);
     if (action === 'Logout') logout();
     if (action === 'Manage accounts') {
-      getNewAccessToken(login, logout, navigate);
+      // getNewAccessToken(login, logout, navigate);
       setManageUsersIsOpen(true);
     };
 
