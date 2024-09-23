@@ -21,7 +21,7 @@ export default function UsersTable() {
     const [ usersList, setUsersList ] = useState([])
     const [ invitation, setInvitation ] = useState('')
 
-    const { accessToken } = useState(AuthContext);
+    const { accessToken } = useContext(AuthContext);
 
     // console.log("UsersTable component, rows =>", rows);
 

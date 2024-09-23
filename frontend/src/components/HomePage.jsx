@@ -60,6 +60,10 @@ function HomePage() {
         There may be delays in the website's operation because the demo servers often go to sleep.<br />
         Please be patient with them.
         </div>
+
+        <div style={{marginTop: '5px', fontSize: '0.8rem'}}>
+        Demo prototype, not all features are implemented. Have question - email me: <a href="mailto:">e.smyshl@gmail.com</a>
+        </div>
       </>
     );
 };

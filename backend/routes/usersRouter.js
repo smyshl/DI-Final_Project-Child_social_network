@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/register', usersController.registerUser);
 router.post('/login', usersController.loginUser);
 router.get('/getnewaccesstoken', usersController.getNewAccessToken);
-router.get('/logout', verifyToken, usersController.delRefreshToken);
+router.get('/logout', usersController.delRefreshToken);
 router.get('/all', verifyToken, usersController.getAllUsers);
 router.get('/invite', usersController.getNewUserInvitationLink);
 
