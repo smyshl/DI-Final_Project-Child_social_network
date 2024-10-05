@@ -33,7 +33,7 @@ async function getAllPosts() {
             `))
         .leftJoin('images_videos', 'posts.id', 'images_videos.post_id')
         .groupBy('posts.id')
-        .orderBy('posts.id', 'desc')
+        .orderBy('created_at', 'desc')
         // .limit(10);
 
         // console.log("postsModel getAllPosts =>", allPosts);
