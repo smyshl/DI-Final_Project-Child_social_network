@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use(
     cors({
       credentials: true,
-      origin: ["http://localhost:3000", "https://hamsters-net.onrender.com"], // "https://di-final-project-child-social-network-lz8d.onrender.com", 
+      origin: ["http://localhost:3000", "http://127.0.0.1:3000", "https://hamsters-net.onrender.com"], // "https://di-final-project-child-social-network-lz8d.onrender.com", 
       exposedHeaders: ['x-access-token'],
     })
   );
@@ -76,3 +76,30 @@ app.use('/post', postsRouter);
 //   }
   
 //   getPgVersion();
+
+
+//   const dns = require('dns');
+
+// // Obtain discovery hostname from environment variable
+// const discoveryHostname = process.env.RENDER_DISCOVERY_SERVICE; // https://di-final-project-child-social-network.onrender.com
+
+// console.log('discoveryHostname =>', discoveryHostname);
+
+
+// function fetchAndPrintIPs() {
+
+//   // Perform DNS lookup
+//   // all: true returns all IP addresses for the given hostname
+//   // family: 4 returns IPv4 addresses
+//   dns.lookup(discoveryHostname, { all: true, family: 4 }, (err, addresses) => {
+//     if (err) {
+//       console.error('Error resolving DNS:', err);
+//       return;
+//     }
+//     // Map over results to extract just the IP addresses
+//     const ips = addresses.map(a => a.address);
+//     console.log(`IP addresses for ${discoveryHostname}: ${ips.join(', ')}`);
+//   });
+// };
+
+// fetchAndPrintIPs();

@@ -1,5 +1,6 @@
 const knex = require ('knex');
 const dotenv = require ('dotenv');
+const fs = require ('fs');
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ module.exports = {
             password: PGPASSWORD,
             ssl: {
                 require: true,
+                rejectUnauthorized: true,
+                ca: fs.readFileSync('./server-ca.pem').toString(),
+                key: fs.readFileSync('./client-key.pem').toString(),
+                cert: fs.readFileSync('./client-cert.pem').toString(),
               },
         }
     })
